@@ -1,0 +1,3 @@
+echo "Compiling..."
+g++ -lncurses Game.cpp Agent.cpp Piece.cpp Tetris.cpp
+echo "All done!"
