@@ -1,27 +1,63 @@
 #include "Piece.h"
 #include <iostream>
+#include "assert.h"
 
 using namespace std;
 
 Piece::Piece()
 {
-	piece[0][0] = 1;
-	piece[1][0] = 0;
-	piece[0][1] = 1;
-	piece[1][1] = 1;
-
-	//Pick a random number between 0 and 8
-	pieceID = rand() % 8;
+	pieceID = (rand() % 4) + 1;
+	setPiece(pieceID);
 }
 
 Piece::Piece(int id)
 {
-	piece[0][0] = 1;
-	piece[1][0] = 0;
-	piece[0][1] = 1;
-	piece[1][1] = 0;
-
 	pieceID = id;
+	setPiece(id);
+}
+
+void Piece::setPiece(int id)
+{
+	//Reserved id for empty spaces
+	assert(id != 0);
+
+	switch(pieceID){
+		case 1:	
+			// X.
+			// XX
+			piece[0][0] = 1;
+			piece[1][0] = 0;
+			piece[0][1] = 1;
+			piece[1][1] = 1;
+			break;
+		case 2:
+			// XX
+			// XX
+			piece[0][0] = 1;
+			piece[1][0] = 1;
+			piece[0][1] = 1;
+			piece[1][1] = 1;
+			break;
+		case 3:
+			// XX
+			// .X
+			piece[0][0] = 1;
+			piece[1][0] = 1;
+			piece[0][1] = 0;
+			piece[1][1] = 1;
+			break;
+		case 4:
+			// X.
+			// X.
+			piece[0][0] = 1;
+			piece[1][0] = 0;
+			piece[0][1] = 1;
+			piece[1][1] = 0;
+			break;
+		default:
+			cerr << "BAD PIECE ID " << pieceID;
+			exit(1);
+	}
 }
 
 int Piece::getPieceID()

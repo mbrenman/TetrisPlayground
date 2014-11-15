@@ -7,8 +7,6 @@ Tetris::Tetris()
 {
 	clearBoard();
 	curPiece = new Piece();
-
-	curPiece->printPiece();
 }
 
 void Tetris::clearBoard()
@@ -69,7 +67,7 @@ bool Tetris::collision(int dropCol, int dropRow)
 	for (int x = 0; x < PIECESIZE; x++) {
 		for (int y = 0; y < PIECESIZE; y++) {
 			//Only check when the piece is there and the piece is on the board
-			if (p[x][y] && y + dropRow > 0) {
+			if (p[x][y] && y + dropRow >= 0) {
 				//Check if piece is off the board
 				if (x + dropCol >= TETRIS_COLS) {
 					cout << "Off the board X" << endl;

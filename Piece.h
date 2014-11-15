@@ -14,6 +14,7 @@ class Piece {
 	private:
 		bool piece[PIECESIZE][PIECESIZE];
 		int pieceID;
+		void setPiece(int id);
 };
 
 #endif
