@@ -17,15 +17,15 @@ int main()
 	while (!board->isLost()) {
 		board->currentPiece()->printPiece();
 		board->printBoard();
-		board->dropInColumn(4);
+		board->dropInColumn(rand() % (board->highestValidCol() + 1));
 		
 		//Get action from the agent
 
 		//Peform the action
 
 	}
-
 	cout << "highest" << board->highestValidCol() << endl;
+
 	board->printBoard();
 	return 0;
 }
