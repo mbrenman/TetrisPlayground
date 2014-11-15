@@ -20,6 +20,7 @@ class Tetris {
 	    int highestValidColWithRot(Rotation rot);
 	    Tetris* gameCopy();
 	    int getLinesCleared();
+	    int maxBoardHeight();
 	    ~Tetris();
 	private:
 		int board[TETRIS_COLS][TETRIS_ROWS];

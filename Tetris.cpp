@@ -154,6 +154,18 @@ void Tetris::printBoard()
 	}
 }
 
+int Tetris::maxBoardHeight()
+{
+	for (int y = 0; y < TETRIS_ROWS; y++) {
+		for (int x = 0; x < TETRIS_COLS; x++) {
+			if (board[x][y] != EMPTY_SPACE) {
+				return y;
+			}
+		}
+	}
+	return 0;
+}
+
 void Tetris::clearLines()
 {
 	for (int y = TETRIS_ROWS - 1; y >= 0; y--) {
