@@ -93,6 +93,11 @@ void Piece::rotate(Rotation rot)
 			break;
 		case FLIP:
 			cout << "About to rotate FLIP " << endl;
+			for (int x = 0; x < PIECESIZE; x++) {
+				for (int y = 0; y < PIECESIZE; y++) {
+					buf[PIECESIZE - x - 1][PIECESIZE - y - 1] = piece[x][y];
+				}
+			}
 			break;
 		default:
 			exit(1);
