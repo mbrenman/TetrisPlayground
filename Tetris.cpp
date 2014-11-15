@@ -34,7 +34,6 @@ void Tetris::dropInColumn(int col)
 
 	int dropRow = -PIECESIZE; //Start above the board
 	while (!collision(col, dropRow)) {
-		cout << "drop: " << dropRow << endl;
 		dropRow += 1;
 	}
 	dropRow -= 1;
@@ -64,7 +63,6 @@ void Tetris::placePiece(int dropCol, int dropRow) {
 
 bool Tetris::collision(int dropCol, int dropRow)
 {
-	cout << "testing: " << dropCol << ", " << dropRow << endl;
 	bool p[PIECESIZE][PIECESIZE];
 	curPiece->copyPiece(p);
 
@@ -112,7 +110,6 @@ void Tetris::printBoard()
 Piece* Tetris::currentPiece()
 {
 	int id = curPiece->getPieceID();
-	cout << "id " << id << endl;
 	return new Piece(id);
 }
 

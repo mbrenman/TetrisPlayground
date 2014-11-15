@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Tetris.h"
 #include "Piece.h"
+#include <unistd.h>
 
 using namespace std;
 
@@ -15,6 +16,7 @@ int main()
 	
 	//Game loop
 	while (!board->isLost()) {
+		sleep(1);
 		board->currentPiece()->printPiece();
 		board->printBoard();
 		board->dropInColumn(rand() % (board->highestValidCol() + 1));
