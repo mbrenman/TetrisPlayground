@@ -10,6 +10,20 @@ Tetris::Tetris()
 	gameover = false;
 }
 
+Tetris::Tetris(const int inBoard[TETRIS_COLS][TETRIS_ROWS])
+{
+	clearBoard();
+	curPiece = new Piece();
+	gameover = false;
+
+	for (int x = 0; x < TETRIS_COLS; x++) {
+		for (int y = 0; y < TETRIS_ROWS; y++) {
+			//Nothing marked
+			board[x][y] = inBoard[x][y];
+		}
+	}
+}
+
 void Tetris::clearBoard()
 {
 	for (int x = 0; x < TETRIS_COLS; x++) {
@@ -67,6 +81,7 @@ void Tetris::dropInColumn(int col)
 	}
 	dropRow -= 1;
 	placePiece(col, dropRow);
+	clearLines();
 }
 
 void Tetris::placePiece(int dropCol, int dropRow) {
@@ -135,6 +150,52 @@ void Tetris::printBoard()
 		}
 		cout << endl;
 	}
+}
+
+void Tetris::clearLines()
+{
+	for (int y = TETRIS_ROWS - 1; y >= 0; y--) {
+		if (lineIsFull(y)) {
+			clearLine(y);
+			y++; //In case there are multiple lines that are cleared
+		}
+	}
+}
+
+bool Tetris::lineIsFull(int y)
+{
+	assert(y >= 0);
+	assert(y < TETRIS_ROWS);
+
+	for (int x = 0; x < TETRIS_COLS; x++) {
+		if (board[x][y] == EMPTY_SPACE) {
+			return false;
+		}
+	}
+	return true;
+}
+
+void Tetris::clearLine(int startCol)
+{
+	assert(startCol >= 0);
+	assert(startCol < TETRIS_ROWS);
+
+	//Pull down all rows above
+	for (int y = startCol; y > 0; y--) {
+		for (int x = 0; x < TETRIS_COLS; x++) {
+			board[x][y] = board[x][y - 1];
+		}
+	}
+
+	//Clear the top row
+	for (int x = 0; x < TETRIS_COLS; x++) {
+		board[x][0] = EMPTY_SPACE;
+	}
+}
+
+Tetris* Tetris::gameCopy()
+{
+	return new Tetris(board);
 }
 
 Piece* Tetris::currentPiece()

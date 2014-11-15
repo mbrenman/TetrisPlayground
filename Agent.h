@@ -9,7 +9,7 @@
 class Agent {
 	public:
 		Agent();
-		Action* getAction(Tetris *board);
+		virtual Action* getAction(Tetris *board);
 	private:
 };
 

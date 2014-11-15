@@ -11,12 +11,14 @@ const int EMPTY_SPACE = 0;
 class Tetris {
 	public:
 	    Tetris();
+	  	Tetris(const int board[TETRIS_COLS][TETRIS_ROWS]);
 	    void printBoard();
 	    bool isLost();
 	    Piece* currentPiece();
 	    void playAction(Action *a);
 	    int highestValidCol();
 	    int highestValidColWithRot(Rotation rot);
+	    Tetris* gameCopy();
 	    ~Tetris();
 	private:
 		int board[TETRIS_COLS][TETRIS_ROWS];
@@ -26,6 +28,9 @@ class Tetris {
 		bool collision(int dropCol, int dropRow);
 		void placePiece(int dropCol, int dropRow);
 		void dropInColumn(int col);
+		void clearLines();
+		bool lineIsFull(int y);
+		void clearLine(int startCol);
 };
 
 

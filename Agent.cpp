@@ -6,9 +6,6 @@ Agent::Agent()
 }
 
 Action* Agent::getAction(Tetris *board)
-{	
-	Rotation rot = (Rotation)(rand() % 4);
-	int playColumn = rand() % (board->highestValidColWithRot(rot) + 1);
-	Action *a = new Action(rot, playColumn);
-	return a;
+{
+	return NULL;
 }
