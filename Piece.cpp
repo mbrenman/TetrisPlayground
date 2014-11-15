@@ -82,10 +82,14 @@ void Piece::rotate(Rotation rot)
 					buf[PIECESIZE - y - 1][x] = piece[x][y];
 				}
 			}
-			cout << "Done." << endl;
 			break;
 		case COUNTER_CLOCKWISE:
 			cout << "About to rotate COUNTER_CLOCKWISE " << endl;
+			for (int x = 0; x < PIECESIZE; x++) {
+				for (int y = 0; y < PIECESIZE; y++) {
+					buf[y][PIECESIZE - x - 1] = piece[x][y];
+				}
+			}
 			break;
 		case FLIP:
 			cout << "About to rotate FLIP " << endl;
