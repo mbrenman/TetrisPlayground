@@ -24,9 +24,31 @@ int Tetris::highestValidCol()
 	return TETRIS_COLS - curPiece->pieceWidth() - 1;
 }
 
+int Tetris::highestValidColWithRot(Rotation rot)
+{
+	//Make a copy of the current piece
+	Piece *p = new Piece(curPiece->getPieceID());
+
+	//Rotate the new piece
+	p->rotate(rot);
+
+	//Give the highestValidCol based on the new piece's width
+	return TETRIS_COLS - p->pieceWidth() - 1;
+}
+
+void Tetris::playAction(Action *a)
+{
+	curPiece->printPiece();
+	curPiece->rotate(a->rotation);
+	dropInColumn(a->column);
+}
+
 void Tetris::dropInColumn(int col)
 {
 	assert(col >= 0);
+	if (col > highestValidCol()){
+		cerr << "Highest col: " << col << endl;
+	}
 	assert(col <= highestValidCol());
 	assert(col < TETRIS_COLS);
 

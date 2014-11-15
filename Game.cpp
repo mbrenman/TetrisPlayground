@@ -22,7 +22,8 @@ int main()
 		// board->currentPiece()->printPiece();
 		board->printBoard();
 		Action *a = player->getAction(board);
-		board->dropInColumn(a->column);
+		// board->dropInColumn(a->column);
+		board->playAction(a);
 		
 		//Get action from the agent
 

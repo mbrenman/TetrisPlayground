@@ -1,13 +1,14 @@
 #ifndef __Action__
 #define __Action__
 
-enum ROTATIONS {NONE, CLOCKWISE, COUNTER_CLOCKWISE, FLIP};
+#include "Constants.h"
 
 class Action {
 	public:
 		Action();
-		Action(int rot, int col);
-		int rotation, column;
+		Action(Rotation rot, int col);
+		Rotation rotation;
+		int column;
 	private:
 };
 

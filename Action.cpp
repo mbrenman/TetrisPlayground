@@ -2,11 +2,11 @@
 
 Action::Action()
 {
-	rotation = -1;
+	rotation = NONE;
 	column = -1;
 }
 
-Action::Action(int rot, int col)
+Action::Action(Rotation rot, int col)
 {
 	rotation = rot;
 	column = col;

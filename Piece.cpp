@@ -65,6 +65,78 @@ int Piece::getPieceID()
 	return pieceID;
 }
 
+//Fix this logic
+void Piece::rotate(Rotation rot)
+{
+	bool buf[PIECESIZE][PIECESIZE];
+	copyPiece(buf);
+	printPiece();
+	switch(rot){
+		case NONE:
+			cout << "About to rotate NONE " << endl;
+			break;
+		case CLOCKWISE:
+			cout << "About to rotate CLOCKWISE " << endl;
+			for (int x = 0; x < PIECESIZE; x++) {
+				for (int y = 0; y < PIECESIZE; y++) {
+					buf[PIECESIZE - y - 1][x] = piece[x][y];
+				}
+			}
+			cout << "Done." << endl;
+			break;
+		case COUNTER_CLOCKWISE:
+			cout << "About to rotate COUNTER_CLOCKWISE " << endl;
+			break;
+		case FLIP:
+			cout << "About to rotate FLIP " << endl;
+			break;
+		default:
+			exit(1);
+	}
+	printPiece();
+	replacePiece(buf);
+	pullLeft();
+}
+
+void Piece::replacePiece(bool buf[PIECESIZE][PIECESIZE])
+{
+
+	for (int x = 0; x < PIECESIZE; x++) {
+		for (int y = 0; y < PIECESIZE; y++) {
+			piece[x][y] = buf[x][y];
+			assert(piece[x][y] == buf[x][y]);
+		}
+	}
+}
+
+//Fix this logic
+void Piece::pullLeft()
+{
+	printPiece();
+	while (emptyLeft()){
+		cout << "PULLING LEFT" << endl;
+		printPiece();
+		for (int y = 0; y < PIECESIZE; y++) {
+			for (int x = 0; x < PIECESIZE - 1; x++) {
+				piece[x][y] = piece[x + 1][y];
+			}
+			piece[PIECESIZE - 1][y] = 0;
+		}
+		cout << "Done." << endl;
+		printPiece();
+	}
+}
+
+bool Piece::emptyLeft()
+{
+	for (int y = 0; y < PIECESIZE; y++) {
+		if (piece[0][y]){
+			return false;
+		}
+	}
+	return true;
+}
+
 void Piece::copyPiece(bool buf[PIECESIZE][PIECESIZE])
 {
 	for (int x = 0; x < PIECESIZE; x++) {

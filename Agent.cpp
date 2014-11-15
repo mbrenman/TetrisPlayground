@@ -7,7 +7,7 @@ Agent::Agent()
 
 Action* Agent::getAction(Tetris *board)
 {
-	int playColumn = rand() % (board->highestValidCol() + 1);
-	Action *a = new Action(NONE, playColumn);
+	int playColumn = rand() % (board->highestValidColWithRot(CLOCKWISE) + 1);
+	Action *a = new Action(CLOCKWISE, playColumn);
 	return a;
 }

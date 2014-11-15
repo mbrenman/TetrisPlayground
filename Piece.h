@@ -11,10 +11,14 @@ class Piece {
 		void printPiece();
 		int pieceWidth();
 		int getPieceID();
+		void rotate(Rotation rot);
 	private:
 		bool piece[PIECESIZE][PIECESIZE];
 		int pieceID;
 		void setPiece(int id);
+		void pullLeft();
+		void replacePiece(bool buf[PIECESIZE][PIECESIZE]);
+		bool emptyLeft();
 };
 
 #endif
