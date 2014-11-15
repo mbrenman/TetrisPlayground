@@ -2,7 +2,7 @@
 #define __Constants__
 
 //Board Sizes
-const int TETRIS_ROWS = 30;
+const int TETRIS_ROWS = 20;
 const int TETRIS_COLS = 10;
 
 const int PIECESIZE = 2;

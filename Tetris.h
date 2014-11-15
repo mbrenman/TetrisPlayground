@@ -17,6 +17,7 @@ class Tetris {
 	    void playAction(Action *a);
 	    int highestValidCol();
 	    int highestValidColWithRot(Rotation rot);
+	    ~Tetris();
 	private:
 		int board[TETRIS_COLS][TETRIS_ROWS];
 		bool gameover;

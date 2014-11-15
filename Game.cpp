@@ -6,6 +6,8 @@
 
 using namespace std;
 
+void clearScreen();
+
 int main()
 {
 	srand(time(NULL));
@@ -18,20 +20,27 @@ int main()
 
 	//Game loop
 	while (!board->isLost()) {
-		usleep(50000);
-		// board->currentPiece()->printPiece();
+		usleep(75000);
 		board->printBoard();
-		Action *a = player->getAction(board);
-		// board->dropInColumn(a->column);
-		board->playAction(a);
 		
 		//Get action from the agent
-
+		Action *a = player->getAction(board);
+		
 		//Peform the action
+		board->playAction(a);
 
+		clearScreen();
 	}
 	cout << "highest" << board->highestValidCol() << endl;
 
 	board->printBoard();
+
+	delete board;
+	delete player;
 	return 0;
+}
+
+void clearScreen()
+{
+	cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 }

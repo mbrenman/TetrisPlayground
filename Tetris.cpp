@@ -7,6 +7,7 @@ Tetris::Tetris()
 {
 	clearBoard();
 	curPiece = new Piece();
+	gameover = false;
 }
 
 void Tetris::clearBoard()
@@ -32,15 +33,23 @@ int Tetris::highestValidColWithRot(Rotation rot)
 	//Rotate the new piece
 	p->rotate(rot);
 
+	//Save the width
+	int width = p->pieceWidth();
+
+	//Delete the piece
+	delete p;
+
 	//Give the highestValidCol based on the new piece's width
-	return TETRIS_COLS - p->pieceWidth() - 1;
+	return TETRIS_COLS - width - 1;
 }
 
 void Tetris::playAction(Action *a)
 {
-	curPiece->printPiece();
 	curPiece->rotate(a->rotation);
 	dropInColumn(a->column);
+
+	//Free the action
+	delete a;
 }
 
 void Tetris::dropInColumn(int col)
@@ -57,7 +66,6 @@ void Tetris::dropInColumn(int col)
 		dropRow += 1;
 	}
 	dropRow -= 1;
-	cout << dropRow << endl;
 	placePiece(col, dropRow);
 }
 
@@ -78,6 +86,8 @@ void Tetris::placePiece(int dropCol, int dropRow) {
 		}
 	}
 
+	//Free the old piece and get a new one
+	delete curPiece;
 	curPiece = new Piece();
 }
 
@@ -92,17 +102,17 @@ bool Tetris::collision(int dropCol, int dropRow)
 			if (p[x][y] && y + dropRow >= 0) {
 				//Check if piece is off the board
 				if (x + dropCol >= TETRIS_COLS) {
-					cout << "Off the board X" << endl;
+					// cout << "Off the board X" << endl;
 					return true;
 				}
 				//Check if piece is falling through the bottom
 				if (y + PIECESIZE + dropRow > TETRIS_ROWS + 1) {
-					cout << "Off the board Y" << endl;
+					// cout << "Off the board Y" << endl;
 					return true;
 				}
 				//Check if piece is colliding with already placed pieces
 				if (board[x + dropCol][y + dropRow] != EMPTY_SPACE) {
-					cout << "COLLISION" << endl;
+					// cout << "COLLISION" << endl;
 					return true;
 				}
 			}
@@ -136,4 +146,9 @@ Piece* Tetris::currentPiece()
 bool Tetris::isLost()
 {
 	return gameover;
+}
+
+Tetris::~Tetris()
+{
+	delete curPiece;
 }
