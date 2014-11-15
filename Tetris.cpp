@@ -8,13 +8,15 @@ Tetris::Tetris()
 	clearBoard();
 	curPiece = new Piece();
 	gameover = false;
+	linesCleared = 0;
 }
 
-Tetris::Tetris(const int inBoard[TETRIS_COLS][TETRIS_ROWS])
+Tetris::Tetris(const int inBoard[TETRIS_COLS][TETRIS_ROWS], int pieceID, int cleared)
 {
 	clearBoard();
-	curPiece = new Piece();
+	curPiece = new Piece(pieceID);
 	gameover = false;
+	linesCleared = cleared;
 
 	for (int x = 0; x < TETRIS_COLS; x++) {
 		for (int y = 0; y < TETRIS_ROWS; y++) {
@@ -157,6 +159,7 @@ void Tetris::clearLines()
 	for (int y = TETRIS_ROWS - 1; y >= 0; y--) {
 		if (lineIsFull(y)) {
 			clearLine(y);
+			linesCleared += 1;
 			y++; //In case there are multiple lines that are cleared
 		}
 	}
@@ -195,7 +198,7 @@ void Tetris::clearLine(int startCol)
 
 Tetris* Tetris::gameCopy()
 {
-	return new Tetris(board);
+	return new Tetris(board, curPiece->getPieceID(), linesCleared);
 }
 
 Piece* Tetris::currentPiece()
@@ -207,6 +210,11 @@ Piece* Tetris::currentPiece()
 bool Tetris::isLost()
 {
 	return gameover;
+}
+
+int Tetris::getLinesCleared()
+{
+	return linesCleared;
 }
 
 Tetris::~Tetris()

@@ -11,7 +11,7 @@ const int EMPTY_SPACE = 0;
 class Tetris {
 	public:
 	    Tetris();
-	  	Tetris(const int board[TETRIS_COLS][TETRIS_ROWS]);
+	  	Tetris(const int board[TETRIS_COLS][TETRIS_ROWS], int pieceID, int cleared);
 	    void printBoard();
 	    bool isLost();
 	    Piece* currentPiece();
@@ -19,9 +19,11 @@ class Tetris {
 	    int highestValidCol();
 	    int highestValidColWithRot(Rotation rot);
 	    Tetris* gameCopy();
+	    int getLinesCleared();
 	    ~Tetris();
 	private:
 		int board[TETRIS_COLS][TETRIS_ROWS];
+		int linesCleared;
 		bool gameover;
 		Piece* curPiece;
 		void clearBoard();
