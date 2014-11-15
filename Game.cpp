@@ -22,7 +22,7 @@ int main()
 
 	//Game loop
 	while (!board->isLost()) {
-		usleep(75000);
+		usleep(7500);
 		board->printBoard();
 
 		//Get action from the agent
@@ -35,6 +35,8 @@ int main()
 	}
 
 	board->printBoard();
+
+	cout << "Finished with #lines: " << board->getLinesCleared() << endl;
 
 	delete board;
 	delete player;
