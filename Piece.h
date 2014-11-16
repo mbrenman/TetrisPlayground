@@ -3,6 +3,8 @@
 
 #include "Constants.h"
 
+const int NUMPIECES = 1;
+
 class Piece {
 	public:
 		Piece();
@@ -17,8 +19,10 @@ class Piece {
 		int pieceID;
 		void setPiece(int id);
 		void pullLeft();
+		void pullDown();
 		void replacePiece(bool buf[PIECESIZE][PIECESIZE]);
 		bool emptyLeft();
+		bool emptyBottom();
 };
 
 #endif

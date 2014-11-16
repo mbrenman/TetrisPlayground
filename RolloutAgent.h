@@ -15,7 +15,8 @@ class RolloutAgent : public Agent {
 		Action* pickRandomAction(vector<Action*> &actions);
 		void clearActionList(vector<Action*> &actions);
 		void foundNewBestAction(vector<Action*> &actions, Rotation rot, int col);
-		void foundTiedAction(vector<Action*> &actions, Rotation rot, int col);
+		void foundTiedAction(vector<Action*> &actions, Rotation rot, int col);		
+		int valueOfAction(int linesCleared, int heightGain, int newHoles, bool lost);
 };
 
 #endif

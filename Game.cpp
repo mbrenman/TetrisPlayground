@@ -10,7 +10,7 @@ using namespace std;
 
 void clearScreen();
 
-int main()
+int main(int argc, char const *argv[])
 {
 	srand(time(NULL));
 
@@ -22,7 +22,7 @@ int main()
 
 	//Game loop
 	while (!board->isLost()) {
-		usleep(50000);
+		usleep(750000);
 		board->printBoard();
 
 		//Get action from the agent

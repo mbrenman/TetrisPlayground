@@ -6,7 +6,8 @@
 #include "Action.h"
 #include <assert.h>
 
-const int EMPTY_SPACE = 0;
+const int EMPTY_SPACE =  0;
+const int RESERVED    = -1;
 
 class Tetris {
 	public:
@@ -21,6 +22,7 @@ class Tetris {
 	    Tetris* gameCopy();
 	    int getLinesCleared();
 	    int maxBoardHeight();
+	    int holesInBoard();
 	    ~Tetris();
 	private:
 		int board[TETRIS_COLS][TETRIS_ROWS];
@@ -34,6 +36,9 @@ class Tetris {
 		void clearLines();
 		bool lineIsFull(int y);
 		void clearLine(int startCol);
+		int countBlanks(int boardCopy[TETRIS_COLS][TETRIS_ROWS]);
+		void fillReachableBlanks(int x, int y, int boardCopy[TETRIS_COLS][TETRIS_ROWS]);
+		void copyBoard(int dest[TETRIS_COLS][TETRIS_ROWS]);
 };
 
 

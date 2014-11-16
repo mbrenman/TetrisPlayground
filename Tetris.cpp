@@ -83,6 +83,7 @@ void Tetris::dropInColumn(int col)
 	}
 	dropRow -= 1;
 	placePiece(col, dropRow);
+
 	clearLines();
 }
 
@@ -123,7 +124,7 @@ bool Tetris::collision(int dropCol, int dropRow)
 					return true;
 				}
 				//Check if piece is falling through the bottom
-				if (y + PIECESIZE + dropRow > TETRIS_ROWS + 1) {
+				if (y + dropRow >= TETRIS_ROWS) {
 					// cout << "Off the board Y" << endl;
 					return true;
 				}
@@ -205,6 +206,55 @@ void Tetris::clearLine(int startCol)
 	//Clear the top row
 	for (int x = 0; x < TETRIS_COLS; x++) {
 		board[x][0] = EMPTY_SPACE;
+	}
+}
+
+int Tetris::holesInBoard()
+{
+	int boardCopy[TETRIS_COLS][TETRIS_ROWS];
+	copyBoard(boardCopy);
+
+	for (int x = 0; x < TETRIS_COLS; x++) {
+		//Try filling at all of the top spots in case one is blocked
+		fillReachableBlanks(x, 0, boardCopy);
+	}
+	return countBlanks(boardCopy);
+}
+
+int Tetris::countBlanks(int boardCopy[TETRIS_COLS][TETRIS_ROWS])
+{
+	int numHoles = 0;
+	for (int x = 0; x < TETRIS_COLS; x++) {
+		for (int y = 0; y < TETRIS_ROWS; y++) {
+			if (boardCopy[x][y] == EMPTY_SPACE) {
+				numHoles++;
+			}
+		}
+	}
+	return numHoles;
+}
+
+void Tetris::fillReachableBlanks(int x, int y, int boardCopy[TETRIS_COLS][TETRIS_ROWS])
+{
+	//Make sure that we're on the board
+	if (x >= 0 && x < TETRIS_COLS && y >= 0 && y < TETRIS_ROWS) {
+		//Only change and recurse on empty spaces
+		if (boardCopy[x][y] == EMPTY_SPACE) {
+			boardCopy[x][y] = RESERVED;
+			fillReachableBlanks(x + 1, y, boardCopy);
+			fillReachableBlanks(x - 1, y, boardCopy);
+			fillReachableBlanks(x, y + 1, boardCopy);
+			fillReachableBlanks(x, y - 1, boardCopy);
+		}
+	}
+}
+
+void Tetris::copyBoard(int dest[TETRIS_COLS][TETRIS_ROWS])
+{
+	for (int x = 0; x < TETRIS_COLS; x++) {
+		for (int y = 0; y < TETRIS_ROWS; y++) {
+			dest[x][y] = board[x][y];
+		}
 	}
 }
 

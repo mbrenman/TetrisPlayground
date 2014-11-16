@@ -6,7 +6,7 @@ using namespace std;
 
 Piece::Piece()
 {
-	pieceID = (rand() % 4) + 1;
+	pieceID = (rand() % NUMPIECES) + 1;
 	setPiece(pieceID);
 }
 
@@ -22,38 +22,61 @@ void Piece::setPiece(int id)
 	assert(id != 0);
 
 	switch(pieceID){
-		case 1:	
-			// X.
-			// XX
-			piece[0][0] = 1;
-			piece[1][0] = 0;
-			piece[0][1] = 1;
-			piece[1][1] = 1;
+		case 1:
+			// . . . .
+			// . . . .
+			// X X . .
+			// X X . .
+				piece[0][0] = 0;
+				piece[1][0] = 0;
+				piece[2][0] = 0;
+				piece[3][0] = 0;
+				piece[0][1] = 0;
+				piece[1][1] = 0;
+				piece[2][1] = 0;
+				piece[3][1] = 0;
+				piece[0][2] = 1;
+				piece[1][2] = 1;
+				piece[2][2] = 0;
+				piece[3][2] = 0;
+				piece[0][3] = 1;
+				piece[1][3] = 1;
+				piece[2][3] = 0;
+				piece[3][3] = 0;
 			break;
-		case 2:
-			// XX
-			// XX
-			piece[0][0] = 1;
-			piece[1][0] = 1;
-			piece[0][1] = 1;
-			piece[1][1] = 1;
-			break;
-		case 3:
-			// XX
-			// .X
-			piece[0][0] = 1;
-			piece[1][0] = 1;
-			piece[0][1] = 0;
-			piece[1][1] = 1;
-			break;
-		case 4:
-			// X.
-			// X.
-			piece[0][0] = 1;
-			piece[1][0] = 0;
-			piece[0][1] = 1;
-			piece[1][1] = 0;
-			break;
+
+		// case 1:	
+		// 	// X.
+		// 	// XX
+		// 	piece[0][0] = 1;
+		// 	piece[1][0] = 0;
+		// 	piece[0][1] = 1;
+		// 	piece[1][1] = 1;
+		// 	break;
+		// case 2:
+		// 	// XX
+		// 	// XX
+		// 	piece[0][0] = 1;
+		// 	piece[1][0] = 1;
+		// 	piece[0][1] = 1;
+		// 	piece[1][1] = 1;
+		// 	break;
+		// case 3:
+		// 	// XX
+		// 	// .X
+		// 	piece[0][0] = 1;
+		// 	piece[1][0] = 1;
+		// 	piece[0][1] = 0;
+		// 	piece[1][1] = 1;
+		// 	break;
+		// case 4:
+		// 	// X.
+		// 	// X.
+		// 	piece[0][0] = 1;
+		// 	piece[1][0] = 0;
+		// 	piece[0][1] = 1;
+		// 	piece[1][1] = 0;
+		// 	break;
 		default:
 			cerr << "BAD PIECE ID " << pieceID;
 			exit(1);
@@ -133,6 +156,28 @@ bool Piece::emptyLeft()
 {
 	for (int y = 0; y < PIECESIZE; y++) {
 		if (piece[0][y]){
+			return false;
+		}
+	}
+	return true;
+}
+
+void Piece::pullDown()
+{
+	while (emptyBottom()){
+		for (int x = 0; x < PIECESIZE; x++) {
+			for (int y = PIECESIZE - 1; y > 0; y--) {		
+				piece[x][y] = piece[x][y - 1];
+			}
+			piece[x][0] = 0;
+		}
+	}
+}
+
+bool Piece::emptyBottom()
+{
+	for (int x = 0; x < PIECESIZE; x++) {
+		if (piece[x][PIECESIZE - 1]){
 			return false;
 		}
 	}

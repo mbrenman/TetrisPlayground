@@ -7,10 +7,9 @@ RolloutAgent::RolloutAgent()
 
 Action* RolloutAgent::getAction(Tetris *board)
 {		
-	int maxLinesCleared = -1;
-	int minHeightGained = PIECESIZE; //Max possible
-	Rotation bestRot = NUM_ROTATIONS; //If not overwritten, this is crash when played
-	int bestColumn = -1;
+	// int maxLinesCleared = -1;
+	// int minHeightGained = PIECESIZE; //Max possible
+	int bestValue = -99999999;
 
 	vector<Action*> bestActions;
 
@@ -30,35 +29,47 @@ Action* RolloutAgent::getAction(Tetris *board)
 			Tetris *sim = board->gameCopy();
 
 			//Save current game stats
-			int prevLines = sim->getLinesCleared();
+			int prevLines  = sim->getLinesCleared();
 			int prevHeight = sim->maxBoardHeight();
+			int prevHoles  = sim->holesInBoard();
 
 			//Play the action
 			sim->playAction(a);
 
 			//Observe new stats
 			int linesCleared = sim->getLinesCleared() - prevLines;
-			int heightGain = prevHeight - sim->maxBoardHeight();
+			int heightGain   = prevHeight - sim->maxBoardHeight();
+			int newHoles     = sim->holesInBoard() - prevHoles;
+			bool lost		 = sim->isLost();
+
+			int value = valueOfAction(linesCleared, heightGain, newHoles, lost);
+
+			if (value > bestValue) {
+				bestValue = value;
+				foundNewBestAction(bestActions, rot, col);
+			} else if (value == bestValue) {
+				foundTiedAction(bestActions, rot, col);
+			}
 
 			//More lines are better
-			if (linesCleared > maxLinesCleared) {
-				maxLinesCleared = linesCleared;
-				minHeightGained = heightGain;
-				bestRot = rot;
-				bestColumn = col;
-				foundNewBestAction(bestActions, rot, col);
-			} else if (linesCleared == maxLinesCleared) {
-				//Minimize height gain if lines cannot be cleared
-				if (heightGain < minHeightGained) {
-					maxLinesCleared = linesCleared;
-					minHeightGained = heightGain;
-					bestRot = rot;
-					bestColumn = col;
-					foundNewBestAction(bestActions, rot, col);
-				} else if (heightGain == minHeightGained) {
-					foundTiedAction(bestActions, rot, col);
-				}
-			}
+			// if (linesCleared > maxLinesCleared) {
+			// 	maxLinesCleared = linesCleared;
+			// 	minHeightGained = heightGain;
+			// 	bestRot = rot;
+			// 	bestColumn = col;
+			// 	foundNewBestAction(bestActions, rot, col);
+			// } else if (linesCleared == maxLinesCleared) {
+			// 	//Minimize height gain if lines cannot be cleared
+			// 	if (heightGain < minHeightGained) {
+			// 		maxLinesCleared = linesCleared;
+			// 		minHeightGained = heightGain;
+			// 		bestRot = rot;
+			// 		bestColumn = col;
+			// 		foundNewBestAction(bestActions, rot, col);
+			// 	} else if (heightGain == minHeightGained) {
+			// 		foundTiedAction(bestActions, rot, col);
+			// 	}
+			// }
 			delete sim;
 		}
 	}
@@ -71,6 +82,15 @@ Action* RolloutAgent::getAction(Tetris *board)
 
 	//Play the action
 	return a;
+}
+
+int RolloutAgent::valueOfAction(int linesCleared, int heightGain, int newHoles, bool lost)
+{
+	if (lost) {
+		return -10000;
+	} else {
+		return (100 * linesCleared) + (-3 * newHoles) + (-50 * heightGain);
+	}
 }
 
 Action* RolloutAgent::pickRandomAction(vector<Action*> &actions)
