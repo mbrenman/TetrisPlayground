@@ -44,6 +44,28 @@ void Piece::setPiece(int id)
 				piece[2][3] = 0;
 				piece[3][3] = 0;
 			break;
+		case 2:
+			// . . . .
+			// . . . .
+			// X . . .
+			// X X X .
+				piece[0][0] = 0;
+				piece[1][0] = 0;
+				piece[2][0] = 0;
+				piece[3][0] = 0;
+				piece[0][1] = 0;
+				piece[1][1] = 0;
+				piece[2][1] = 0;
+				piece[3][1] = 0;
+				piece[0][2] = 1;
+				piece[1][2] = 0;
+				piece[2][2] = 0;
+				piece[3][2] = 0;
+				piece[0][3] = 1;
+				piece[1][3] = 1;
+				piece[2][3] = 1;
+				piece[3][3] = 0;
+			break;
 
 		// case 1:	
 		// 	// X.
