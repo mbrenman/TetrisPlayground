@@ -22,7 +22,7 @@ int main()
 
 	//Game loop
 	while (!board->isLost()) {
-		usleep(7500);
+		usleep(50000);
 		board->printBoard();
 
 		//Get action from the agent

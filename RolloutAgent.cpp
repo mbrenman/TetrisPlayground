@@ -88,13 +88,15 @@ Action* RolloutAgent::pickRandomAction(vector<Action*> &actions)
 void RolloutAgent::clearActionList(vector<Action*> &actions)
 {
 	for(vector<Action*>::iterator it = actions.begin(); it != actions.end(); it++) {
-		delete (*it);
+		Action *a = (*it);
+		delete a;
 	}
+	actions.clear();
 }
 
 void RolloutAgent::foundNewBestAction(vector<Action*> &actions, Rotation rot, int col)
 {
-	actions.clear();
+	clearActionList(actions);
 	Action *a = new Action(rot, col);
 	actions.push_back(a);
 }
