@@ -23,6 +23,7 @@ class Tetris {
 	    int getLinesCleared();
 	    int maxBoardHeight();
 	    int holesInBoard();
+	    int topDownBlocked();
 	    ~Tetris();
 	private:
 		int board[TETRIS_COLS][TETRIS_ROWS];
@@ -39,6 +40,9 @@ class Tetris {
 		int countBlanks(int boardCopy[TETRIS_COLS][TETRIS_ROWS]);
 		void fillReachableBlanks(int x, int y, int boardCopy[TETRIS_COLS][TETRIS_ROWS]);
 		void copyBoard(int dest[TETRIS_COLS][TETRIS_ROWS]);
+		void fillTopDown(int boardCopy[TETRIS_COLS][TETRIS_ROWS]);
+		void printSpecial(int inBoard[TETRIS_COLS][TETRIS_ROWS]);
+
 };
 
 

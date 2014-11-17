@@ -3,7 +3,7 @@
 
 #include "Constants.h"
 
-const int NUMPIECES = 2;
+const int NUMPIECES = 7;
 
 class Piece {
 	public:

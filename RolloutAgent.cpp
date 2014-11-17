@@ -29,9 +29,10 @@ Action* RolloutAgent::getAction(Tetris *board)
 			Tetris *sim = board->gameCopy();
 
 			//Save current game stats
-			int prevLines  = sim->getLinesCleared();
-			int prevHeight = sim->maxBoardHeight();
-			int prevHoles  = sim->holesInBoard();
+			int prevLines   = sim->getLinesCleared();
+			int prevHeight  = sim->maxBoardHeight();
+			int prevHoles   = sim->holesInBoard();
+			int prevBlocked = sim->topDownBlocked();
 
 			//Play the action
 			sim->playAction(a);
@@ -40,9 +41,10 @@ Action* RolloutAgent::getAction(Tetris *board)
 			int linesCleared = sim->getLinesCleared() - prevLines;
 			int heightGain   = prevHeight - sim->maxBoardHeight();
 			int newHoles     = sim->holesInBoard() - prevHoles;
+			int topBlocked   = sim->topDownBlocked() - prevBlocked;
 			bool lost		 = sim->isLost();
 
-			int value = valueOfAction(linesCleared, heightGain, newHoles, lost);
+			int value = valueOfAction(linesCleared, heightGain, newHoles, topBlocked, lost);
 
 			if (value > bestValue) {
 				bestValue = value;
@@ -84,12 +86,12 @@ Action* RolloutAgent::getAction(Tetris *board)
 	return a;
 }
 
-int RolloutAgent::valueOfAction(int linesCleared, int heightGain, int newHoles, bool lost)
+int RolloutAgent::valueOfAction(int linesCleared, int heightGain, int newHoles, int topDownBlocked, bool lost)
 {
 	if (lost) {
 		return -10000;
 	} else {
-		return (100 * linesCleared) + (-3 * newHoles) + (-50 * heightGain);
+		return (100 * linesCleared) + (-1 * newHoles) + (-10 * topDownBlocked) + (-50 * heightGain);
 	}
 }
 

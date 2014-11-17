@@ -66,39 +66,116 @@ void Piece::setPiece(int id)
 				piece[2][3] = 1;
 				piece[3][3] = 0;
 			break;
-
-		// case 1:	
-		// 	// X.
-		// 	// XX
-		// 	piece[0][0] = 1;
-		// 	piece[1][0] = 0;
-		// 	piece[0][1] = 1;
-		// 	piece[1][1] = 1;
-		// 	break;
-		// case 2:
-		// 	// XX
-		// 	// XX
-		// 	piece[0][0] = 1;
-		// 	piece[1][0] = 1;
-		// 	piece[0][1] = 1;
-		// 	piece[1][1] = 1;
-		// 	break;
-		// case 3:
-		// 	// XX
-		// 	// .X
-		// 	piece[0][0] = 1;
-		// 	piece[1][0] = 1;
-		// 	piece[0][1] = 0;
-		// 	piece[1][1] = 1;
-		// 	break;
-		// case 4:
-		// 	// X.
-		// 	// X.
-		// 	piece[0][0] = 1;
-		// 	piece[1][0] = 0;
-		// 	piece[0][1] = 1;
-		// 	piece[1][1] = 0;
-		// 	break;
+		case 3:
+			// . . . .
+			// . . . .
+			// . . X .
+			// X X X .
+				piece[0][0] = 0;
+				piece[1][0] = 0;
+				piece[2][0] = 0;
+				piece[3][0] = 0;
+				piece[0][1] = 0;
+				piece[1][1] = 0;
+				piece[2][1] = 0;
+				piece[3][1] = 0;
+				piece[0][2] = 0;
+				piece[1][2] = 0;
+				piece[2][2] = 1;
+				piece[3][2] = 0;
+				piece[0][3] = 1;
+				piece[1][3] = 1;
+				piece[2][3] = 1;
+				piece[3][3] = 0;
+			break;
+		case 4:
+			// . . . .
+			// . . . .
+			// . . . .
+			// X X X X
+				piece[0][0] = 0;
+				piece[1][0] = 0;
+				piece[2][0] = 0;
+				piece[3][0] = 0;
+				piece[0][1] = 0;
+				piece[1][1] = 0;
+				piece[2][1] = 0;
+				piece[3][1] = 0;
+				piece[0][2] = 0;
+				piece[1][2] = 0;
+				piece[2][2] = 0;
+				piece[3][2] = 0;
+				piece[0][3] = 1;
+				piece[1][3] = 1;
+				piece[2][3] = 1;
+				piece[3][3] = 1;
+			break;
+		case 5:
+			// . . . .
+			// . . . .
+			// . X X .
+			// X X . .
+				piece[0][0] = 0;
+				piece[1][0] = 0;
+				piece[2][0] = 0;
+				piece[3][0] = 0;
+				piece[0][1] = 0;
+				piece[1][1] = 0;
+				piece[2][1] = 0;
+				piece[3][1] = 0;
+				piece[0][2] = 0;
+				piece[1][2] = 1;
+				piece[2][2] = 1;
+				piece[3][2] = 0;
+				piece[0][3] = 1;
+				piece[1][3] = 1;
+				piece[2][3] = 0;
+				piece[3][3] = 0;
+			break;
+		case 6:
+			// . . . .
+			// . . . .
+			// X X . .
+			// . X X .
+				piece[0][0] = 0;
+				piece[1][0] = 0;
+				piece[2][0] = 0;
+				piece[3][0] = 0;
+				piece[0][1] = 0;
+				piece[1][1] = 0;
+				piece[2][1] = 0;
+				piece[3][1] = 0;
+				piece[0][2] = 1;
+				piece[1][2] = 1;
+				piece[2][2] = 0;
+				piece[3][2] = 0;
+				piece[0][3] = 0;
+				piece[1][3] = 1;
+				piece[2][3] = 1;
+				piece[3][3] = 0;
+			break;
+		case 7:
+			// . . . .
+			// . . . .
+			// X X . .
+			// . X X .
+				piece[0][0] = 0;
+				piece[1][0] = 0;
+				piece[2][0] = 0;
+				piece[3][0] = 0;
+				piece[0][1] = 0;
+				piece[1][1] = 0;
+				piece[2][1] = 0;
+				piece[3][1] = 0;
+				piece[0][2] = 0;
+				piece[1][2] = 1;
+				piece[2][2] = 0;
+				piece[3][2] = 0;
+				piece[0][3] = 1;
+				piece[1][3] = 1;
+				piece[2][3] = 1;
+				piece[3][3] = 0;
+			break;
 		default:
 			cerr << "BAD PIECE ID " << pieceID;
 			exit(1);

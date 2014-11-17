@@ -155,6 +155,24 @@ void Tetris::printBoard()
 	}
 }
 
+void Tetris::printSpecial(int inBoard[TETRIS_COLS][TETRIS_ROWS])
+{
+	for (int y = 0; y < TETRIS_ROWS; y++) {
+		for (int x = 0; x < TETRIS_COLS; x++) {
+			if (inBoard[x][y] == RESERVED){
+				cout << " X";
+			} else if (inBoard[x][y] != EMPTY_SPACE) {
+				printf("%c[%d;%d;%dm",27,1,37,40 + inBoard[x][y]);
+				cout << "  ";
+				printf("%c[%dm", 0x1B, 0);
+			} else {
+				cout << " ,";
+			}
+		}
+		cout << endl;
+	}
+}
+
 int Tetris::maxBoardHeight()
 {
 	for (int y = 0; y < TETRIS_ROWS; y++) {
@@ -221,19 +239,6 @@ int Tetris::holesInBoard()
 	return countBlanks(boardCopy);
 }
 
-int Tetris::countBlanks(int boardCopy[TETRIS_COLS][TETRIS_ROWS])
-{
-	int numHoles = 0;
-	for (int x = 0; x < TETRIS_COLS; x++) {
-		for (int y = 0; y < TETRIS_ROWS; y++) {
-			if (boardCopy[x][y] == EMPTY_SPACE) {
-				numHoles++;
-			}
-		}
-	}
-	return numHoles;
-}
-
 void Tetris::fillReachableBlanks(int x, int y, int boardCopy[TETRIS_COLS][TETRIS_ROWS])
 {
 	//Make sure that we're on the board
@@ -247,6 +252,40 @@ void Tetris::fillReachableBlanks(int x, int y, int boardCopy[TETRIS_COLS][TETRIS
 			fillReachableBlanks(x, y - 1, boardCopy);
 		}
 	}
+}
+
+int Tetris::topDownBlocked()
+{
+	int boardCopy[TETRIS_COLS][TETRIS_ROWS];
+	copyBoard(boardCopy);
+
+	fillTopDown(boardCopy);
+	return countBlanks(boardCopy);
+}
+
+void Tetris::fillTopDown(int boardCopy[TETRIS_COLS][TETRIS_ROWS])
+{
+	for (int x = 0; x < TETRIS_COLS; x++) {
+		int y = 0;
+		//While we're on the board and at an empty space
+		while ((x >= 0 && x < TETRIS_COLS && y >= 0 && y < TETRIS_ROWS) && boardCopy[x][y] == EMPTY_SPACE) {
+			boardCopy[x][y] = RESERVED;
+			y++;
+		}
+	}
+}
+
+int Tetris::countBlanks(int boardCopy[TETRIS_COLS][TETRIS_ROWS])
+{
+	int numHoles = 0;
+	for (int x = 0; x < TETRIS_COLS; x++) {
+		for (int y = 0; y < TETRIS_ROWS; y++) {
+			if (boardCopy[x][y] == EMPTY_SPACE) {
+				numHoles++;
+			}
+		}
+	}
+	return numHoles;
 }
 
 void Tetris::copyBoard(int dest[TETRIS_COLS][TETRIS_ROWS])

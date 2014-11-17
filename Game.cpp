@@ -22,7 +22,7 @@ int main(int argc, char const *argv[])
 
 	//Game loop
 	while (!board->isLost()) {
-		usleep(750000);
+		usleep(75000);
 		board->printBoard();
 
 		//Get action from the agent
