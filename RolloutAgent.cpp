@@ -7,9 +7,7 @@ RolloutAgent::RolloutAgent()
 
 Action* RolloutAgent::getAction(Tetris *board)
 {		
-	// int maxLinesCleared = -1;
-	// int minHeightGained = PIECESIZE; //Max possible
-	int bestValue = -99999999;
+	float bestValue = -99999999;
 
 	vector<Action*> bestActions;
 
@@ -44,7 +42,7 @@ Action* RolloutAgent::getAction(Tetris *board)
 			int topBlocked   = sim->topDownBlocked() - prevBlocked;
 			bool lost		 = sim->isLost();
 
-			int value = valueOfAction(linesCleared, heightGain, newHoles, topBlocked, lost);
+			float value = valueOfAction(linesCleared, heightGain, newHoles, topBlocked, lost);
 
 			if (value > bestValue) {
 				bestValue = value;
@@ -53,25 +51,6 @@ Action* RolloutAgent::getAction(Tetris *board)
 				foundTiedAction(bestActions, rot, col);
 			}
 
-			//More lines are better
-			// if (linesCleared > maxLinesCleared) {
-			// 	maxLinesCleared = linesCleared;
-			// 	minHeightGained = heightGain;
-			// 	bestRot = rot;
-			// 	bestColumn = col;
-			// 	foundNewBestAction(bestActions, rot, col);
-			// } else if (linesCleared == maxLinesCleared) {
-			// 	//Minimize height gain if lines cannot be cleared
-			// 	if (heightGain < minHeightGained) {
-			// 		maxLinesCleared = linesCleared;
-			// 		minHeightGained = heightGain;
-			// 		bestRot = rot;
-			// 		bestColumn = col;
-			// 		foundNewBestAction(bestActions, rot, col);
-			// 	} else if (heightGain == minHeightGained) {
-			// 		foundTiedAction(bestActions, rot, col);
-			// 	}
-			// }
 			delete sim;
 		}
 	}
@@ -86,12 +65,12 @@ Action* RolloutAgent::getAction(Tetris *board)
 	return a;
 }
 
-int RolloutAgent::valueOfAction(int linesCleared, int heightGain, int newHoles, int topDownBlocked, bool lost)
+float RolloutAgent::valueOfAction(int linesCleared, int heightGain, int newHoles, int topDownBlocked, bool lost)
 {
 	if (lost) {
 		return -10000;
 	} else {
-		return (100 * linesCleared) + (-1 * newHoles) + (-10 * topDownBlocked) + (-50 * heightGain);
+		return (100 * linesCleared) + (-3 * newHoles) + (-10 * topDownBlocked) + (-50 * heightGain);
 	}
 }
 

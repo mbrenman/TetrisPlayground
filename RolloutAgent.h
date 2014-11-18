@@ -7,6 +7,8 @@
 
 using namespace std;
 
+const int K = 1;
+
 class RolloutAgent : public Agent {
 	public:
 		RolloutAgent();
@@ -16,7 +18,7 @@ class RolloutAgent : public Agent {
 		void clearActionList(vector<Action*> &actions);
 		void foundNewBestAction(vector<Action*> &actions, Rotation rot, int col);
 		void foundTiedAction(vector<Action*> &actions, Rotation rot, int col);		
-		int valueOfAction(int linesCleared, int heightGain, int newHoles, int topDownBlocked, bool lost);
+		float valueOfAction(int linesCleared, int heightGain, int newHoles, int topDownBlocked, bool lost);
 };
 
 #endif
