@@ -59,16 +59,16 @@ int Tetris::highestValidColWithRot(Rotation rot)
 	return TETRIS_COLS - width - 1;
 }
 
-void Tetris::playAction(Action *a)
+void Tetris::playAction(Action *a, bool animated)
 {
 	curPiece->rotate(a->rotation);
-	dropInColumn(a->column);
+	dropInColumn(a->column, animated);
 
 	//Free the action
 	delete a;
 }
 
-void Tetris::dropInColumn(int col)
+void Tetris::dropInColumn(int col, bool animated)
 {
 	assert(col >= 0);
 	if (col > highestValidCol()){
@@ -80,14 +80,18 @@ void Tetris::dropInColumn(int col)
 	int dropRow = -PIECESIZE; //Start above the board
 	while (!collision(col, dropRow)) {
 		dropRow += 1;
+		if (animated && dropRow > 0) {
+			printBoardWithDroppingPiece(col, dropRow - 1);
+			usleep(ANIM_DELAY);
+		}
 	}
 	dropRow -= 1;
-	placePiece(col, dropRow);
+	placePiece(col, dropRow, board, true);
 
 	clearLines();
 }
 
-void Tetris::placePiece(int dropCol, int dropRow) {
+void Tetris::placePiece(int dropCol, int dropRow, int inBoard[TETRIS_COLS][TETRIS_ROWS], bool activeBoard) {
 	bool p[PIECESIZE][PIECESIZE];
 	curPiece->copyPiece(p);
 
@@ -95,18 +99,20 @@ void Tetris::placePiece(int dropCol, int dropRow) {
 		for (int y = 0; y < PIECESIZE; y++) {
 			if (p[x][y]) {
 				//Check if the board has been lost
-				if (y + dropRow < 0) {
+				if (y + dropRow < 0 && activeBoard) {
 					gameover = true;
 				} else {
-					board[x + dropCol][y + dropRow] = curPiece->getPieceID();
+					inBoard[x + dropCol][y + dropRow] = curPiece->getPieceID();
 				}
 			}
 		}
 	}
 
-	//Free the old piece and get a new one
-	delete curPiece;
-	curPiece = new Piece();
+	//Free the old piece and get a new one only if this isn't the temp animation board
+	if (activeBoard) {
+		delete curPiece;
+		curPiece = new Piece();
+	}
 }
 
 bool Tetris::collision(int dropCol, int dropRow)
@@ -155,6 +161,18 @@ void Tetris::printBoard()
 	}
 }
 
+void Tetris::printBoardWithDroppingPiece(int col, int dropRow)
+{
+	int boardCopy[TETRIS_COLS][TETRIS_ROWS];
+	copyBoard(boardCopy);
+
+	//Place piece on a temporary board
+	placePiece(col, dropRow, boardCopy, false);
+
+	//Print the temp board
+	printSpecial(boardCopy);
+}
+
 void Tetris::printSpecial(int inBoard[TETRIS_COLS][TETRIS_ROWS])
 {
 	for (int y = 0; y < TETRIS_ROWS; y++) {
@@ -171,6 +189,12 @@ void Tetris::printSpecial(int inBoard[TETRIS_COLS][TETRIS_ROWS])
 		}
 		cout << endl;
 	}
+	clearScreen();
+}
+
+void Tetris::clearScreen()
+{
+	cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 }
 
 int Tetris::maxBoardHeight()

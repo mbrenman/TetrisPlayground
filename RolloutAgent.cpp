@@ -33,7 +33,7 @@ Action* RolloutAgent::getAction(Tetris *board)
 			int prevBlocked = sim->topDownBlocked();
 
 			//Play the action
-			sim->playAction(a);
+			sim->playAction(a, false);
 
 			//Observe new stats
 			int linesCleared = sim->getLinesCleared() - prevLines;

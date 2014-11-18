@@ -22,16 +22,11 @@ int main(int argc, char const *argv[])
 
 	//Game loop
 	while (!board->isLost()) {
-		usleep(75000);
-		board->printBoard();
-
 		//Get action from the agent
 		Action *a = player->getAction(board);
 
 		//Peform the action
-		board->playAction(a);
-
-		clearScreen();
+		board->playAction(a, true);
 	}
 
 	board->printBoard();
@@ -41,9 +36,4 @@ int main(int argc, char const *argv[])
 	delete board;
 	delete player;
 	return 0;
-}
-
-void clearScreen()
-{
-	cout << "\n\n\n\n\n\n";
 }
