@@ -184,7 +184,7 @@ void Tetris::printSpecial(int inBoard[TETRIS_COLS][TETRIS_ROWS])
 				cout << "  ";
 				printf("%c[%dm", 0x1B, 0);
 			} else {
-				cout << " ,";
+				cout << " .";
 			}
 		}
 		cout << endl;
@@ -285,6 +285,28 @@ int Tetris::topDownBlocked()
 
 	fillTopDown(boardCopy);
 	return countBlanks(boardCopy);
+}
+
+int Tetris::aggregateTopDownBlocked()
+{
+	int boardCopy[TETRIS_COLS][TETRIS_ROWS];
+	copyBoard(boardCopy);
+
+	int blockCount = 0;
+
+	for (int x = 0; x < TETRIS_COLS; x++) {
+		for (int y = 0; y < TETRIS_ROWS; y++) {
+			if (board[x][y] == EMPTY_SPACE) {
+				//Go back up, counting how many are blocking this piece
+				for (int yprime = y; yprime >= 0; yprime--) {
+					if (board[x][yprime] != EMPTY_SPACE) {
+						blockCount++;
+					}
+				}
+			}
+		}
+	}
+	return blockCount;
 }
 
 void Tetris::fillTopDown(int boardCopy[TETRIS_COLS][TETRIS_ROWS])
