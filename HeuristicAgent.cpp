@@ -100,40 +100,6 @@ float HeuristicAgent::valueOfAction(int linesCleared, int heightGain, int newHol
 	}
 }
 
-Action* HeuristicAgent::pickRandomAction(vector<Action*> &actions)
-{
-	assert(actions.size() > 0);
-	
-	//Randomly pick an index and get the action
-	int actIndex = rand() % actions.size();
-	Action *a = actions.at(actIndex);
-
-	//Make a copy since all of the values in the vector will be cleaned up
-	return new Action(a->rotation, a->column);
-}
-
-void HeuristicAgent::clearActionList(vector<Action*> &actions)
-{
-	for(vector<Action*>::iterator it = actions.begin(); it != actions.end(); it++) {
-		Action *a = (*it);
-		delete a;
-	}
-	actions.clear();
-}
-
-void HeuristicAgent::foundNewBestAction(vector<Action*> &actions, Rotation rot, int col)
-{
-	clearActionList(actions);
-	Action *a = new Action(rot, col);
-	actions.push_back(a);
-}
-
-void HeuristicAgent::foundTiedAction(vector<Action*> &actions, Rotation rot, int col)
-{
-	Action *a = new Action(rot, col);
-	actions.push_back(a);
-}
-
 HeuristicAgent::~HeuristicAgent()
 {
 }

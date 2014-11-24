@@ -19,11 +19,7 @@ class RolloutAgent : public Agent {
 		Action* getAction(Tetris *board);
 		~RolloutAgent();
 	private:
-		HeuristicAgent *heurAgent;
-		Action* pickRandomAction(vector<Action*> &actions);
-		void clearActionList(vector<Action*> &actions);
-		void foundNewBestAction(vector<Action*> &actions, Rotation rot, int col);
-		void foundTiedAction(vector<Action*> &actions, Rotation rot, int col);		
+		HeuristicAgent *heurAgent;	
 };
 
 #endif
