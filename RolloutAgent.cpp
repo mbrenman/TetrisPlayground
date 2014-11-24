@@ -7,6 +7,8 @@ RolloutAgent::RolloutAgent()
 
 Action* RolloutAgent::getAction(Tetris *board)
 {
+	HeuristicAgent *ha = new HeuristicAgent();
+
 	vector<Action*> bestActions;
 	float bestValue = -99999999;
 
@@ -29,20 +31,16 @@ Action* RolloutAgent::getAction(Tetris *board)
 				//Copy the board -- this makes it have random next pieces
 				Tetris *trajectorySim = board->gameCopy();
 
-				// cout << "NEW TRAJ" << endl;
 
-				//This also plays the action
-				float trajValue = valueOfActionOnBoard(a, trajectorySim);
+				trajectorySim->playAction(a, false);
 
 				for (int k = 0; k < K; k++) {
 					// trajectorySim->printBoard();
-					Action *heuristicAct = getActionHeuristic(trajectorySim);
-					// trajectorySim->playAction(heuristicAct, false);
-					trajValue += pow(GAMMA, k+1) * valueOfActionOnBoard(heuristicAct, trajectorySim);
+					Action *heuristicAct = ha->getAction(trajectorySim);
+					trajectorySim->playAction(heuristicAct, false);
 				}
 
-				actVal += trajValue;
-				// actVal += valueBetweenBoards(board, trajectorySim);
+				actVal += valueBetweenBoards(board, trajectorySim);
 				// trajectorySim->printBoard();
 			}
 			
@@ -69,73 +67,6 @@ Action* RolloutAgent::getAction(Tetris *board)
 
 	//Play the action
 	return a;
-}
-
-Action* RolloutAgent::getActionHeuristic(Tetris *board)
-{		
-	float bestValue = -99999999;
-
-	vector<Action*> bestActions;
-
-	//For all valid rotations
-	for (int r = 0; r < NUM_ROTATIONS; r++) {
-		Rotation rot = (Rotation) r;
-
-		//Make sure that we only check valid columns
-		int maxColumn = board->highestValidColWithRot(rot) + 1;
-
-		//For all valid columns for each rotation
-		for (int col = 0; col < maxColumn; col++) {
-			//Create the action for this move (will be cleaned up by playing it)
-			Action *a = new Action(rot, col);
-
-			//Copy the board
-			Tetris *sim = board->gameCopy();
-
-			float value = valueOfActionOnBoard(a, sim);
-
-			if (value > bestValue) {
-				bestValue = value;
-				foundNewBestAction(bestActions, rot, col);
-			} else if (value == bestValue) {
-				foundTiedAction(bestActions, rot, col);
-			}
-
-			delete sim;
-		}
-	}
-
-	//Choose the best action
-	Action *a = pickRandomAction(bestActions);
-
-	//Clean up the actions
-	clearActionList(bestActions);
-
-	//Play the action
-	return a;
-}
-
-float RolloutAgent::valueOfActionOnBoard(Action *a, Tetris *sim)
-{
-			//Save current game stats
-			int prevLines      = sim->getLinesCleared();
-			int prevHeight     = sim->maxBoardHeight();
-			int prevHoles      = sim->holesInBoard();
-			int prevBlocked    = sim->topDownBlocked();
-			int prevAggBlocked = sim->aggregateTopDownBlocked();
-
-			//Play the action
-			sim->playAction(a, false);
-
-			//Observe new stats
-			int linesCleared    = sim->getLinesCleared() - prevLines;
-			int heightGain      = prevHeight - sim->maxBoardHeight();
-			int newHoles        = sim->holesInBoard() - prevHoles;
-			int topBlocked      = sim->topDownBlocked() - prevBlocked;
-			int aggTopBlocked   = sim->aggregateTopDownBlocked() - prevAggBlocked;
-			bool lost		    = sim->isLost();
-
-			return valueOfAction(linesCleared, heightGain, newHoles, topBlocked, aggTopBlocked, lost);
 }
 
 float RolloutAgent::valueBetweenBoards(Tetris *board1, Tetris *board2)
@@ -191,4 +122,8 @@ void RolloutAgent::foundTiedAction(vector<Action*> &actions, Rotation rot, int c
 {
 	Action *a = new Action(rot, col);
 	actions.push_back(a);
+}
+
+RolloutAgent::~RolloutAgent()
+{
 }
