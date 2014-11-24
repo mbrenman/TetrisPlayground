@@ -70,4 +70,5 @@ Action* RolloutAgent::getAction(Tetris *board)
 
 RolloutAgent::~RolloutAgent()
 {
+	delete heurAgent;
 }
