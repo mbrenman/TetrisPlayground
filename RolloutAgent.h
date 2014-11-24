@@ -19,12 +19,11 @@ class RolloutAgent : public Agent {
 		Action* getAction(Tetris *board);
 		~RolloutAgent();
 	private:
+		HeuristicAgent *heurAgent;
 		Action* pickRandomAction(vector<Action*> &actions);
 		void clearActionList(vector<Action*> &actions);
 		void foundNewBestAction(vector<Action*> &actions, Rotation rot, int col);
 		void foundTiedAction(vector<Action*> &actions, Rotation rot, int col);		
-		float valueBetweenBoards(Tetris *board1, Tetris *board2);
-		float valueOfAction(int linesCleared, int heightGain, int newHoles, int topDownBlocked, int aggTopBlocked, bool lost);
 };
 
 #endif

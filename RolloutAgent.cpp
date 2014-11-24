@@ -3,12 +3,11 @@
 RolloutAgent::RolloutAgent()
 {
 	Agent();
+	heurAgent = new HeuristicAgent();
 }
 
 Action* RolloutAgent::getAction(Tetris *board)
 {
-	HeuristicAgent *ha = new HeuristicAgent();
-
 	vector<Action*> bestActions;
 	float bestValue = -99999999;
 
@@ -36,16 +35,16 @@ Action* RolloutAgent::getAction(Tetris *board)
 
 				for (int k = 0; k < K; k++) {
 					// trajectorySim->printBoard();
-					Action *heuristicAct = ha->getAction(trajectorySim);
+					Action *heuristicAct = heurAgent->getAction(trajectorySim);
 					trajectorySim->playAction(heuristicAct, false);
 				}
 
-				actVal += valueBetweenBoards(board, trajectorySim);
+				actVal += heurAgent->valueBetweenBoards(board, trajectorySim);
 				// trajectorySim->printBoard();
 			}
 			
 			//Average over the W K-length trajectories
-			actVal /= W;
+			actVal /= (float)W;
 			// actionSim->printBoard();
 			// cout << "PLAY WITH ROW: " << r << " AND COL: " << col << endl;
 			// cout << "SCORE: " << actVal << endl << endl;
@@ -67,27 +66,6 @@ Action* RolloutAgent::getAction(Tetris *board)
 
 	//Play the action
 	return a;
-}
-
-float RolloutAgent::valueBetweenBoards(Tetris *board1, Tetris *board2)
-{
-	int linesCleared    = board2->getLinesCleared() - board1->getLinesCleared();
-	int heightGain      = board1->maxBoardHeight() - board2->maxBoardHeight();
-	int newHoles        = board2->holesInBoard() - board1->holesInBoard();
-	int topBlocked      = board2->topDownBlocked() - board1->topDownBlocked();
-	int aggTopBlocked   = board2->aggregateTopDownBlocked() - board1->aggregateTopDownBlocked();
-	bool lost		    = board2->isLost();
-
-	return valueOfAction(linesCleared, heightGain, newHoles, topBlocked, aggTopBlocked, lost);
-}
-
-float RolloutAgent::valueOfAction(int linesCleared, int heightGain, int newHoles, int topDownBlocked, int aggTopBlocked, bool lost)
-{
-	if (lost) {
-		return -10000;
-	} else {
-		return (50 * linesCleared) + (0 * newHoles) + (-10 * topDownBlocked) + (0 * aggTopBlocked) + (-25 * heightGain);
-	}
 }
 
 Action* RolloutAgent::pickRandomAction(vector<Action*> &actions)
