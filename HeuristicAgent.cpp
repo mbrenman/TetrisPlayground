@@ -7,16 +7,38 @@ HeuristicAgent::HeuristicAgent()
 
 Action* HeuristicAgent::getAction(Tetris *board)
 {
-	vector<Action *> bestActions = getBestActions(board);
+	vector<Action *> bestActions;
+	string boardDesc = getBoardDesc(board);
+
+	//Check if the action has been seen before
+	if (computedActions.count(boardDesc) > 0 && false) {
+
+		//Pull actions from the map
+		bestActions = computedActions.at(boardDesc);
+	} else {
+		//Calculate best actions
+		bestActions = getBestActions(board);
+
+		//Save those actions
+		computedActions[boardDesc] = bestActions;
+	}
 
 	//Choose the best action
 	Action *a = pickRandomAction(bestActions);
 
-	//Clean up the actions
-	clearActionList(bestActions);
-
 	//Play the action
 	return a;
+}
+
+string HeuristicAgent::getBoardDesc(Tetris *board)
+{
+	//Get a local copy of the board
+	int copy[TETRIS_COLS][TETRIS_ROWS];
+	board->copyBoard(copy);
+
+
+
+	return "test";
 }
 
 vector<Action *> HeuristicAgent::getBestActions(Tetris *board)
@@ -96,10 +118,11 @@ float HeuristicAgent::valueOfAction(int linesCleared, int heightGain, int newHol
 	if (lost) {
 		return -10000;
 	} else {
-		return (50 * linesCleared) + (0 * newHoles) + (-10 * topDownBlocked) + (0 * aggTopBlocked) + (-25 * heightGain);
+		return (75 * linesCleared) + (-5 * newHoles) + (-1 * topDownBlocked) + (-1 * aggTopBlocked) + (-25 * heightGain);
 	}
 }
 
 HeuristicAgent::~HeuristicAgent()
 {
+	//TODO: clean up all of the memory in the map -- use clearActionList(...) on all values;
 }

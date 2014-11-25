@@ -24,6 +24,8 @@ Action* RolloutAgent::getAction(Tetris *board)
 			
 			float actVal = 0;
 			
+			//TODO: Look at all possible next pieces instead of random sampling
+
 			for (int w = 0; w < W; w++) {
 				Action *a = new Action(rot, col);
 
@@ -34,6 +36,7 @@ Action* RolloutAgent::getAction(Tetris *board)
 				trajectorySim->playAction(a, false);
 
 				for (int k = 0; k < K; k++) {
+					// trajectorySim->setPiece(1);
 					// trajectorySim->printBoard();
 					Action *heuristicAct = heurAgent->getAction(trajectorySim);
 					trajectorySim->playAction(heuristicAct, false);

@@ -10,7 +10,7 @@
 using namespace std;
 
 const int K = 2;
-const int W = 10;
+const int W = 1;
 const float GAMMA = 0.9;
 
 class RolloutAgent : public Agent {

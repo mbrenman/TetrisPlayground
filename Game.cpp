@@ -14,8 +14,8 @@ int main(int argc, char const *argv[])
 {
 	srand(time(NULL));
 
-	//Create Simulator with an empty board
-	Tetris *board = new Tetris();
+	//Create Simulator with an empty board -- official game
+	Tetris *board = new Tetris(true);
 
 	//Create Agent
 	Agent *player = new RolloutAgent();

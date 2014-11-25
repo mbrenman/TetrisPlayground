@@ -3,12 +3,15 @@
 
 #include "Agent.h"
 #include <vector>
+#include <map>
 #include <iostream>
 #include <math.h>
 
 using namespace std;
 
 const int HEURISTIC_HEIGHT = 2;
+
+//TODO: Move board heuristics into this file
 
 class HeuristicAgent : public Agent {
 	public:
@@ -18,8 +21,10 @@ class HeuristicAgent : public Agent {
 		~HeuristicAgent();
 	private:
 		vector<Action *> getBestActions(Tetris *board);
+		string getBoardDesc(Tetris *board);
 		float valueOfAction(int linesCleared, int heightGain, int newHoles, int topDownBlocked, int aggTopBlocked, bool lost);
 		float valueOfActionOnBoard(Action *a, Tetris *sim);
+		map<string, vector<Action *> > computedActions;
 };
 
 #endif

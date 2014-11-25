@@ -10,15 +10,16 @@
 const int EMPTY_SPACE =  0;
 const int RESERVED    = -1;
 
-const int ANIM_DELAY = 25000;
+const int ANIM_DELAY = 10000;
 
 class Tetris {
 	public:
-	    Tetris();
+	    Tetris(bool official);
 	  	Tetris(const int board[TETRIS_COLS][TETRIS_ROWS], int pieceID, int cleared);
 	    void printBoard();
 	    bool isLost();
 	    Piece* currentPiece();
+	    void setPiece(int id);
 	    void playAction(Action *a, bool animated);
 	    int highestValidCol();
 	    int highestValidColWithRot(Rotation rot);
@@ -28,11 +29,13 @@ class Tetris {
 	    int holesInBoard();
 	    int topDownBlocked();
 	    int aggregateTopDownBlocked();
+	    void copyBoard(int dest[TETRIS_COLS][TETRIS_ROWS]);
 	    ~Tetris();
 	private:
 		int board[TETRIS_COLS][TETRIS_ROWS];
 		int linesCleared;
 		bool gameover;
+		const bool officialGame;
 		Piece* curPiece;
 		void clearBoard();
 		bool collision(int dropCol, int dropRow);
@@ -43,7 +46,6 @@ class Tetris {
 		void clearLine(int startCol);
 		int countBlanks(int boardCopy[TETRIS_COLS][TETRIS_ROWS]);
 		void fillReachableBlanks(int x, int y, int boardCopy[TETRIS_COLS][TETRIS_ROWS]);
-		void copyBoard(int dest[TETRIS_COLS][TETRIS_ROWS]);
 		void fillTopDown(int boardCopy[TETRIS_COLS][TETRIS_ROWS]);
 		void printSpecial(int inBoard[TETRIS_COLS][TETRIS_ROWS]);
 		void printBoardWithDroppingPiece(int col, int dropRow);

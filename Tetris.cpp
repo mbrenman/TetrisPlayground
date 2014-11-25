@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Tetris::Tetris()
+Tetris::Tetris(bool official) : officialGame(official)
 {
 	clearBoard();
 	curPiece = new Piece();
@@ -11,7 +11,8 @@ Tetris::Tetris()
 	linesCleared = 0;
 }
 
-Tetris::Tetris(const int inBoard[TETRIS_COLS][TETRIS_ROWS], int pieceID, int cleared)
+//If we're setting the board, then it is not an official game
+Tetris::Tetris(const int inBoard[TETRIS_COLS][TETRIS_ROWS], int pieceID, int cleared) : officialGame(false)
 {
 	clearBoard();
 	curPiece = new Piece(pieceID);
@@ -189,6 +190,7 @@ void Tetris::printSpecial(int inBoard[TETRIS_COLS][TETRIS_ROWS])
 		}
 		cout << endl;
 	}
+	cout << "Lines Cleared: " << linesCleared << endl;
 	clearScreen();
 }
 
@@ -352,6 +354,15 @@ Piece* Tetris::currentPiece()
 {
 	int id = curPiece->getPieceID();
 	return new Piece(id);
+}
+
+void Tetris::setPiece(int id)
+{
+	assert(id > 0 && id <= NUMPIECES);
+	if (!officialGame) {
+		delete curPiece;
+		curPiece = new Piece(id);
+	}
 }
 
 bool Tetris::isLost()
