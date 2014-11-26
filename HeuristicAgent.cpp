@@ -3,6 +3,25 @@
 HeuristicAgent::HeuristicAgent()
 {
 	Agent();
+	for (int i = 0; i < NUM_WEIGHTS; i++) {
+		weights[i] = 0;
+	}
+}
+
+HeuristicAgent::HeuristicAgent(double ws[NUM_WEIGHTS])
+{
+	Agent();
+
+	//Normalize weights
+	double vectorLength = 0;
+	for (int i = 0; i < NUM_WEIGHTS; i++) {
+		vectorLength += ws[i] * ws[i];
+	}
+	vectorLength = sqrt(vectorLength);
+	
+	for (int i = 0; i < NUM_WEIGHTS; i++) {
+		weights[i] = ws[i] / vectorLength;
+	}
 }
 
 Action* HeuristicAgent::getAction(Tetris *board)
@@ -118,7 +137,7 @@ float HeuristicAgent::valueOfAction(int linesCleared, int heightGain, int newHol
 	if (lost) {
 		return -10000;
 	} else {
-		return (75 * linesCleared) + (-5 * newHoles) + (-1 * topDownBlocked) + (-1 * aggTopBlocked) + (-25 * heightGain);
+		return (weights[0] * linesCleared) + (weights[1] * newHoles) + (weights[2] * topDownBlocked) + (weights[3] * aggTopBlocked) + (weights[4] * heightGain);
 	}
 }
 

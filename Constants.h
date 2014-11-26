@@ -9,6 +9,8 @@ const int TETRIS_COLS = 10;
 const int PIECESIZE = 4;
 const int NUMPIECES = 7;
 
+const int NUM_WEIGHTS = 5;
+
 //All of the possible rotations
 enum Rotation {NONE, CLOCKWISE, COUNTER_CLOCKWISE, FLIP, NUM_ROTATIONS};
 

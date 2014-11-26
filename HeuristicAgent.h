@@ -16,8 +16,10 @@ const int HEURISTIC_HEIGHT = 2;
 class HeuristicAgent : public Agent {
 	public:
 		HeuristicAgent();
+		HeuristicAgent(double ws[NUM_WEIGHTS]);
 		Action* getAction(Tetris *board);
 		float valueBetweenBoards(Tetris *board1, Tetris *board2);
+		double weights[NUM_WEIGHTS];
 		~HeuristicAgent();
 	private:
 		vector<Action *> getBestActions(Tetris *board);

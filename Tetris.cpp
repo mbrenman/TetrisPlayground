@@ -359,10 +359,14 @@ Piece* Tetris::currentPiece()
 void Tetris::setPiece(int id)
 {
 	assert(id > 0 && id <= NUMPIECES);
-	if (!officialGame) {
+
+	//Only change non-official games, but let people try
+	if (officialGame) {
+		cerr << "Illegal Action: Trying to change to official game piece." << endl;
+	} else {
 		delete curPiece;
 		curPiece = new Piece(id);
-	}
+	} 
 }
 
 bool Tetris::isLost()
