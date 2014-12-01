@@ -10,6 +10,7 @@
 using namespace std;
 
 const int HEURISTIC_HEIGHT = 2;
+const double LOSE_PENALTY  = 100000;
 
 //TODO: Add more heuristics
 //			-- smoothness
@@ -28,7 +29,7 @@ class HeuristicAgent : public Agent {
 
 	private:
 		vector<Action *> getBestActions(Tetris *board);
-		float valueOfAction(int linesCleared, int heightGain, int newHoles, int topDownBlocked, int aggTopBlocked, bool lost);
+		float valueOfAction(int linesCleared, int heightGain, int newHoles, int topDownBlocked, int aggTopBlocked, int aggHeight, bool lost);
 		float valueOfActionOnBoard(Action *a, Tetris *sim);
 
 		//Heuristic Measurements

@@ -80,6 +80,7 @@ float HeuristicAgent::valueOfActionOnBoard(Action *a, Tetris *sim)
 			int prevHoles      = holesInBoard(sim);
 			int prevBlocked    = topDownBlocked(sim);
 			int prevAggBlocked = aggregateTopDownBlocked(sim);
+			bool alreadyLost   = sim->isLost();
 
 			//Play the action
 			sim->playAction(a, false);
@@ -90,9 +91,10 @@ float HeuristicAgent::valueOfActionOnBoard(Action *a, Tetris *sim)
 			int newHoles        = holesInBoard(sim) - prevHoles;
 			int topBlocked      = topDownBlocked(sim) - prevBlocked;
 			int aggTopBlocked   = aggregateTopDownBlocked(sim) - prevAggBlocked;
-			bool lost		    = sim->isLost();
+			int aggregHeight	= aggHeight(sim);
+			bool lost		    = alreadyLost || sim->isLost();
 
-			return valueOfAction(linesCleared, heightGain, newHoles, topBlocked, aggTopBlocked, lost);
+			return valueOfAction(linesCleared, heightGain, newHoles, topBlocked, aggTopBlocked, aggregHeight, lost);
 }
 
 float HeuristicAgent::valueBetweenBoards(Tetris *board1, Tetris *board2)
@@ -102,18 +104,26 @@ float HeuristicAgent::valueBetweenBoards(Tetris *board1, Tetris *board2)
 	int newHoles        = holesInBoard(board2) - holesInBoard(board1);
 	int topBlocked      = topDownBlocked(board2) - topDownBlocked(board1);
 	int aggTopBlocked   = aggregateTopDownBlocked(board2) - aggregateTopDownBlocked(board1);
-	bool lost		    = board2->isLost();
+	int aggregHeight	= aggHeight(board2);
+	bool lost		    = board1->isLost() || board2->isLost();
 
-	return valueOfAction(linesCleared, heightGain, newHoles, topBlocked, aggTopBlocked, lost);
+	return valueOfAction(linesCleared, heightGain, newHoles, topBlocked, aggTopBlocked, aggregHeight, lost);
 }
 
-float HeuristicAgent::valueOfAction(int linesCleared, int heightGain, int newHoles, int topDownBlocked, int aggTopBlocked, bool lost)
+float HeuristicAgent::valueOfAction(int linesCleared, int heightGain, int newHoles, int topDownBlocked, int aggTopBlocked, int aggregHeight, bool lost)
 {
+	double score = (weights[0] * linesCleared) + (weights[1] * newHoles) + (weights[2] * topDownBlocked) + (weights[3] * aggTopBlocked) + (weights[4] * heightGain) + (weights[5] * aggregHeight);
 	if (lost) {
-		return -100000;
-	} else {
-		return (weights[0] * linesCleared) + (weights[1] * newHoles) + (weights[2] * topDownBlocked) + (weights[3] * aggTopBlocked) + (weights[4] * heightGain);
+		// cout << endl;
+		// cout << "linesCleared " << linesCleared << endl;
+		// cout << "heightGain " << heightGain << endl;
+		// cout << "newHoles " << newHoles << endl;
+		// cout << "topDownBlocked " << topDownBlocked << endl;
+		// cout << "aggTopBlocked " << aggTopBlocked << endl;
+		// cout << "aggregHeight " << aggregHeight << endl;
+		score -= LOSE_PENALTY;
 	}
+	return score;
 }
 
 //

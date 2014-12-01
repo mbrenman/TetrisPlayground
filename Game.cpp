@@ -21,7 +21,7 @@ int main(int argc, char const *argv[])
 	//Create Simulator with an empty board -- official game
 	Tetris *board = new Tetris(true);
 
-	Agent *player = new RolloutAgent();
+	Agent *player = new NextPieceAgent();
 
 	playGame(board, player, true);
 

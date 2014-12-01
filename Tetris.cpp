@@ -67,6 +67,10 @@ void Tetris::playAction(Action *a, bool animated)
 	curPiece->rotate(a->rotation);
 	dropInColumn(a->column, animated);
 
+	if (animated) {
+		printBoard();
+	}
+	
 	//Free the action
 	delete a;
 }
@@ -90,7 +94,6 @@ void Tetris::dropInColumn(int col, bool animated)
 	}
 	dropRow -= 1;
 	placePiece(col, dropRow, board, true);
-
 	clearLines();
 }
 
@@ -151,6 +154,7 @@ bool Tetris::collision(int dropCol, int dropRow)
 
 void Tetris::printBoard()
 {
+	clearScreen();
 	for (int y = 0; y < TETRIS_ROWS; y++) {
 		for (int x = 0; x < TETRIS_COLS; x++) {
 			if (board[x][y] != EMPTY_SPACE) {
@@ -163,6 +167,7 @@ void Tetris::printBoard()
 		}
 		cout << endl;
 	}
+	printData();
 }
 
 void Tetris::printBoardWithDroppingPiece(int col, int dropRow)
@@ -194,6 +199,11 @@ void Tetris::printSpecial(int inBoard[TETRIS_COLS][TETRIS_ROWS])
 		}
 		cout << endl;
 	}
+	printData();
+}
+
+void Tetris::printData()
+{
 	cout << endl << "Lines Cleared: " << linesCleared << endl;
 
 	cout << endl << "Current Piece: " << endl;

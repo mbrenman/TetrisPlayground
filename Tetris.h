@@ -10,7 +10,7 @@
 const int EMPTY_SPACE =  0;
 const int RESERVED    = -1;
 
-const int ANIM_DELAY = 5000;
+const int ANIM_DELAY = 0;
 
 class Tetris {
 	public:
@@ -44,6 +44,7 @@ class Tetris {
 		void clearLine(int startCol);
 		void printSpecial(int inBoard[TETRIS_COLS][TETRIS_ROWS]);
 		void printBoardWithDroppingPiece(int col, int dropRow);
+		void printData();
 		void clearScreen();
 };
 
