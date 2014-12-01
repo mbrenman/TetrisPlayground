@@ -5,6 +5,7 @@
 #include "RandomAgent.h"
 #include "RolloutAgent.h"
 #include "HeuristicAgent.h"
+#include "NextPieceAgent.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <iomanip>
@@ -60,8 +61,8 @@ int main(int argc, char const *argv[])
 
 
 	double ws[NUM_WEIGHTS] = {0.138531, -0.0323687, -0.702698, -0.0973667, -0.675217};
-	Agent *player = new HeuristicAgent(ws);
-
+	// Agent *player = new HeuristicAgent(ws);
+	Agent *player = new NextPieceAgent();
 	// cout << "Initial Population: " << endl;
 	// printPopulationData(population);
 

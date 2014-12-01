@@ -1,5 +1,5 @@
-#ifndef __TetrisRolloutAgent__
-#define __TetrisRolloutAgent__
+#ifndef __TetrisNextPieceAgent__
+#define __TetrisNextPieceAgent__
 
 #include "Agent.h"
 #include "HeuristicAgent.h"
@@ -9,15 +9,11 @@
 
 using namespace std;
 
-const int K = 2;
-const int W = 5;
-const float GAMMA = 0.9;
-
-class RolloutAgent : public Agent {
+class NextPieceAgent : public Agent {
 	public:
-		RolloutAgent();
+		NextPieceAgent();
 		Action* getAction(Tetris *board);
-		~RolloutAgent();
+		~NextPieceAgent();
 	private:
 		HeuristicAgent *heurAgent;	
 };

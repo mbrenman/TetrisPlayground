@@ -3,7 +3,8 @@
 RolloutAgent::RolloutAgent()
 {
 	Agent();
-	heurAgent = new HeuristicAgent();
+	double *ws = BEST_WEIGHTS;
+	heurAgent = new HeuristicAgent(ws);
 }
 
 Action* RolloutAgent::getAction(Tetris *board)
@@ -31,7 +32,6 @@ Action* RolloutAgent::getAction(Tetris *board)
 
 				//Copy the board -- this makes it have random next pieces
 				Tetris *trajectorySim = board->gameCopy();
-
 
 				trajectorySim->playAction(a, false);
 
