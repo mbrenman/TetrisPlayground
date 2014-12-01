@@ -3,4 +3,6 @@ echo "Compiling..."
 
 g++ Game.cpp Agent.cpp Piece.cpp Tetris.cpp Action.cpp RandomAgent.cpp RolloutAgent.cpp HeuristicAgent.cpp NextPieceAgent.cpp -o play
 
+g++ Train.cpp Agent.cpp Piece.cpp Tetris.cpp Action.cpp RandomAgent.cpp RolloutAgent.cpp HeuristicAgent.cpp NextPieceAgent.cpp -o train
+
 echo "All done!"
