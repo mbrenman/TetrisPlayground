@@ -11,7 +11,11 @@ using namespace std;
 
 const int HEURISTIC_HEIGHT = 2;
 
-//TODO: Move board heuristics into this file
+//TODO: Add more heuristics
+//			-- smoothness
+//			-- total height (not the different) -- INTEGRATE IN
+//			-- max difference between col heights
+//			-- count blockades (maybe instead of aggtopblocked)
 
 class HeuristicAgent : public Agent {
 	public:
@@ -21,12 +25,14 @@ class HeuristicAgent : public Agent {
 		float valueBetweenBoards(Tetris *board1, Tetris *board2);
 		double weights[NUM_WEIGHTS];
 		~HeuristicAgent();
+
 	private:
 		vector<Action *> getBestActions(Tetris *board);
 		float valueOfAction(int linesCleared, int heightGain, int newHoles, int topDownBlocked, int aggTopBlocked, bool lost);
 		float valueOfActionOnBoard(Action *a, Tetris *sim);
 
 		//Heuristic Measurements
+		int aggHeight(Tetris *board);
 		int holesInBoard(Tetris *board);
 		void fillReachableBlanks(int x, int y, int boardCopy[TETRIS_COLS][TETRIS_ROWS]);
 		int countBlanks(int boardCopy[TETRIS_COLS][TETRIS_ROWS]);

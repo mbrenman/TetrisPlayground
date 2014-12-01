@@ -116,7 +116,26 @@ float HeuristicAgent::valueOfAction(int linesCleared, int heightGain, int newHol
 	}
 }
 
+//
 // Measurement Heuristics
+//
+
+int HeuristicAgent::aggHeight(Tetris *board)
+{
+	int boardCopy[TETRIS_COLS][TETRIS_ROWS];
+	board->copyBoard(boardCopy);
+
+	int aggHeight = 0;
+	for (int x = 0; x < TETRIS_COLS; x++) {
+		for (int y = 0; y < TETRIS_ROWS; y++) {
+			if (boardCopy[x][y] != EMPTY_SPACE) {
+				aggHeight += TETRIS_ROWS - y;
+			}
+		}
+	}
+	return aggHeight;
+}
+
 int HeuristicAgent::holesInBoard(Tetris *board)
 {
 	int boardCopy[TETRIS_COLS][TETRIS_ROWS];
