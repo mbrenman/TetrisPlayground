@@ -26,9 +26,6 @@ class Tetris {
 	    Tetris* gameCopy();
 	    int getLinesCleared();
 	    int maxBoardHeight();
-	    int holesInBoard();
-	    int topDownBlocked();
-	    int aggregateTopDownBlocked();
 	    void copyBoard(int dest[TETRIS_COLS][TETRIS_ROWS]);
 	    ~Tetris();
 	private:
@@ -45,9 +42,6 @@ class Tetris {
 		void clearLines();
 		bool lineIsFull(int y);
 		void clearLine(int startCol);
-		int countBlanks(int boardCopy[TETRIS_COLS][TETRIS_ROWS]);
-		void fillReachableBlanks(int x, int y, int boardCopy[TETRIS_COLS][TETRIS_ROWS]);
-		void fillTopDown(int boardCopy[TETRIS_COLS][TETRIS_ROWS]);
 		void printSpecial(int inBoard[TETRIS_COLS][TETRIS_ROWS]);
 		void printBoardWithDroppingPiece(int col, int dropRow);
 		void clearScreen();

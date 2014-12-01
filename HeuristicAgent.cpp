@@ -77,9 +77,9 @@ float HeuristicAgent::valueOfActionOnBoard(Action *a, Tetris *sim)
 			//Save current game stats
 			int prevLines      = sim->getLinesCleared();
 			int prevHeight     = sim->maxBoardHeight();
-			int prevHoles      = sim->holesInBoard();
-			int prevBlocked    = sim->topDownBlocked();
-			int prevAggBlocked = sim->aggregateTopDownBlocked();
+			int prevHoles      = holesInBoard(sim);
+			int prevBlocked    = topDownBlocked(sim);
+			int prevAggBlocked = aggregateTopDownBlocked(sim);
 
 			//Play the action
 			sim->playAction(a, false);
@@ -87,9 +87,9 @@ float HeuristicAgent::valueOfActionOnBoard(Action *a, Tetris *sim)
 			//Observe new stats
 			int linesCleared    = sim->getLinesCleared() - prevLines;
 			int heightGain      = prevHeight - sim->maxBoardHeight();
-			int newHoles        = sim->holesInBoard() - prevHoles;
-			int topBlocked      = sim->topDownBlocked() - prevBlocked;
-			int aggTopBlocked   = sim->aggregateTopDownBlocked() - prevAggBlocked;
+			int newHoles        = holesInBoard(sim) - prevHoles;
+			int topBlocked      = topDownBlocked(sim) - prevBlocked;
+			int aggTopBlocked   = aggregateTopDownBlocked(sim) - prevAggBlocked;
 			bool lost		    = sim->isLost();
 
 			return valueOfAction(linesCleared, heightGain, newHoles, topBlocked, aggTopBlocked, lost);
@@ -99,9 +99,9 @@ float HeuristicAgent::valueBetweenBoards(Tetris *board1, Tetris *board2)
 {
 	int linesCleared    = board2->getLinesCleared() - board1->getLinesCleared();
 	int heightGain      = board1->maxBoardHeight() - board2->maxBoardHeight();
-	int newHoles        = board2->holesInBoard() - board1->holesInBoard();
-	int topBlocked      = board2->topDownBlocked() - board1->topDownBlocked();
-	int aggTopBlocked   = board2->aggregateTopDownBlocked() - board1->aggregateTopDownBlocked();
+	int newHoles        = holesInBoard(board2) - holesInBoard(board1);
+	int topBlocked      = topDownBlocked(board2) - topDownBlocked(board1);
+	int aggTopBlocked   = aggregateTopDownBlocked(board2) - aggregateTopDownBlocked(board1);
 	bool lost		    = board2->isLost();
 
 	return valueOfAction(linesCleared, heightGain, newHoles, topBlocked, aggTopBlocked, lost);
@@ -113,6 +113,90 @@ float HeuristicAgent::valueOfAction(int linesCleared, int heightGain, int newHol
 		return -100000;
 	} else {
 		return (weights[0] * linesCleared) + (weights[1] * newHoles) + (weights[2] * topDownBlocked) + (weights[3] * aggTopBlocked) + (weights[4] * heightGain);
+	}
+}
+
+// Measurement Heuristics
+int HeuristicAgent::holesInBoard(Tetris *board)
+{
+	int boardCopy[TETRIS_COLS][TETRIS_ROWS];
+	board->copyBoard(boardCopy);
+
+	for (int x = 0; x < TETRIS_COLS; x++) {
+		//Try filling at all of the top spots in case one is blocked
+		fillReachableBlanks(x, 0, boardCopy);
+	}
+	return countBlanks(boardCopy);
+}
+
+void HeuristicAgent::fillReachableBlanks(int x, int y, int boardCopy[TETRIS_COLS][TETRIS_ROWS])
+{
+	//Make sure that we're on the board
+	if (x >= 0 && x < TETRIS_COLS && y >= 0 && y < TETRIS_ROWS) {
+		//Only change and recurse on empty spaces
+		if (boardCopy[x][y] == EMPTY_SPACE) {
+			boardCopy[x][y] = RESERVED;
+			fillReachableBlanks(x + 1, y, boardCopy);
+			fillReachableBlanks(x - 1, y, boardCopy);
+			fillReachableBlanks(x, y + 1, boardCopy);
+			fillReachableBlanks(x, y - 1, boardCopy);
+		}
+	}
+}
+
+int HeuristicAgent::countBlanks(int boardCopy[TETRIS_COLS][TETRIS_ROWS])
+{
+	int numHoles = 0;
+	for (int x = 0; x < TETRIS_COLS; x++) {
+		for (int y = 0; y < TETRIS_ROWS; y++) {
+			if (boardCopy[x][y] == EMPTY_SPACE) {
+				numHoles++;
+			}
+		}
+	}
+	return numHoles;
+}
+
+int HeuristicAgent::topDownBlocked(Tetris *board)
+{
+	int boardCopy[TETRIS_COLS][TETRIS_ROWS];
+	board->copyBoard(boardCopy);
+
+	fillTopDown(boardCopy);
+	return countBlanks(boardCopy);
+}
+
+int HeuristicAgent::aggregateTopDownBlocked(Tetris *board)
+{
+	int boardCopy[TETRIS_COLS][TETRIS_ROWS];
+	board->copyBoard(boardCopy);
+
+	int blockCount = 0;
+
+	for (int x = 0; x < TETRIS_COLS; x++) {
+		for (int y = 0; y < TETRIS_ROWS; y++) {
+			if (boardCopy[x][y] == EMPTY_SPACE) {
+				//Go back up, counting how many are blocking this piece
+				for (int yprime = y; yprime >= 0; yprime--) {
+					if (boardCopy[x][yprime] != EMPTY_SPACE) {
+						blockCount++;
+					}
+				}
+			}
+		}
+	}
+	return blockCount;
+}
+
+void HeuristicAgent::fillTopDown(int boardCopy[TETRIS_COLS][TETRIS_ROWS])
+{
+	for (int x = 0; x < TETRIS_COLS; x++) {
+		int y = 0;
+		//While we're on the board and at an empty space
+		while ((x >= 0 && x < TETRIS_COLS && y >= 0 && y < TETRIS_ROWS) && boardCopy[x][y] == EMPTY_SPACE) {
+			boardCopy[x][y] = RESERVED;
+			y++;
+		}
 	}
 }
 

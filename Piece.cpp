@@ -226,6 +226,7 @@ void Piece::rotate(Rotation rot)
 
 	replacePiece(buf);
 	pullLeft();
+	pullDown();
 }
 
 void Piece::replacePiece(bool buf[PIECESIZE][PIECESIZE])
