@@ -56,40 +56,44 @@ int main(int argc, char const *argv[])
 	Tetris *board = new Tetris(true);
 
 	//Create a population
-	playerWithScore *population = randomPopulation();
+	// playerWithScore *population = randomPopulation();
 
-	cout << "Initial Population: " << endl;
-	printPopulationData(population);
 
-	for (int i = 0; i < NUM_GENERATIONS; i++) {
-		evolvePopulation(population);
-		cout << "Generation " << (i + 1) << ": " << endl;
-		printPopulationData(population);
-	}
+	double ws[NUM_WEIGHTS] = {0.138531, -0.0323687, -0.702698, -0.0973667, -0.675217};
+	Agent *player = new HeuristicAgent(ws);
 
-	cout << "\n\nPress Enter to see best agent play!\n\n";
-	string wait;
-	cin >> wait;
+	// cout << "Initial Population: " << endl;
+	// printPopulationData(population);
 
-	//Create Agent -- first in list is best
-	Agent *player = population[0].player;
+	// for (int i = 0; i < NUM_GENERATIONS; i++) {
+	// 	evolvePopulation(population);
+	// 	cout << "Generation " << (i + 1) << ": " << endl;
+	// 	printPopulationData(population);
+	// }
 
-	double score = evaluatePlayer(player);
+	// cout << "\n\nPress Enter to see best agent play!\n\n";
+	// string wait;
+	// cin >> wait;
+
+	// //Create Agent -- first in list is best
+	// Agent *player = population[0].player;
+
+	// double score = evaluatePlayer(player);
 
 	playGame(board, player, true);
 
-	cout << "Avg score: " << score << endl;
-	cout << "With weights: [";
-	double *weights = ((HeuristicAgent *)player)->weights;
-	for (int i = 0; i < NUM_WEIGHTS; i++) {
-		cout << weights[i];
-		if (i < NUM_WEIGHTS - 1) {
-			cout << ", ";
-		}
-	}
-	cout << "]" << endl;
+	// cout << "Avg score: " << score << endl;
+	// cout << "With weights: [";
+	// double *weights = ((HeuristicAgent *)player)->weights;
+	// for (int i = 0; i < NUM_WEIGHTS; i++) {
+	// 	cout << weights[i];
+	// 	if (i < NUM_WEIGHTS - 1) {
+	// 		cout << ", ";
+	// 	}
+	// }
+	// cout << "]" << endl;
 
-	delete population;
+	// delete population;
 	delete board;
 	delete player;
 	return 0;

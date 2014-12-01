@@ -7,15 +7,17 @@ Tetris::Tetris(bool official) : officialGame(official)
 {
 	clearBoard();
 	curPiece = new Piece();
+	nextPiece = new Piece();
 	gameover = false;
 	linesCleared = 0;
 }
 
 //If we're setting the board, then it is not an official game
-Tetris::Tetris(const int inBoard[TETRIS_COLS][TETRIS_ROWS], int pieceID, int cleared) : officialGame(false)
+Tetris::Tetris(const int inBoard[TETRIS_COLS][TETRIS_ROWS], int pieceID, int nextPieceID, int cleared) : officialGame(false)
 {
 	clearBoard();
 	curPiece = new Piece(pieceID);
+	nextPiece = new Piece(nextPieceID);
 	gameover = false;
 	linesCleared = cleared;
 
@@ -112,7 +114,8 @@ void Tetris::placePiece(int dropCol, int dropRow, int inBoard[TETRIS_COLS][TETRI
 	//Free the old piece and get a new one only if this isn't the temp animation board
 	if (activeBoard) {
 		delete curPiece;
-		curPiece = new Piece();
+		curPiece = nextPiece;
+		nextPiece = new Piece();
 	}
 }
 
@@ -176,6 +179,7 @@ void Tetris::printBoardWithDroppingPiece(int col, int dropRow)
 
 void Tetris::printSpecial(int inBoard[TETRIS_COLS][TETRIS_ROWS])
 {
+	clearScreen();
 	for (int y = 0; y < TETRIS_ROWS; y++) {
 		for (int x = 0; x < TETRIS_COLS; x++) {
 			if (inBoard[x][y] == RESERVED){
@@ -191,12 +195,17 @@ void Tetris::printSpecial(int inBoard[TETRIS_COLS][TETRIS_ROWS])
 		cout << endl;
 	}
 	cout << "Lines Cleared: " << linesCleared << endl;
-	clearScreen();
+
+	cout << "Current Piece: " << endl;
+	curPiece->printPiece();
+
+	cout << "Next Piece: " << endl;
+	nextPiece->printPiece();
 }
 
 void Tetris::clearScreen()
 {
-	cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+	cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 }
 
 int Tetris::maxBoardHeight()
@@ -347,7 +356,7 @@ void Tetris::copyBoard(int dest[TETRIS_COLS][TETRIS_ROWS])
 
 Tetris* Tetris::gameCopy()
 {
-	return new Tetris(board, curPiece->getPieceID(), linesCleared);
+	return new Tetris(board, curPiece->getPieceID(), nextPiece->getPieceID(), linesCleared);
 }
 
 Piece* Tetris::currentPiece()
@@ -382,4 +391,5 @@ int Tetris::getLinesCleared()
 Tetris::~Tetris()
 {
 	delete curPiece;
+	delete nextPiece;
 }

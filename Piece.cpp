@@ -309,7 +309,16 @@ void Piece::printPiece()
 {
 	for (int y = 0; y < PIECESIZE; y++) {
 		for (int x = 0; x < PIECESIZE; x++) {
-			cout << piece[x][y];
+			if (piece[x][y]) {
+				//Change color to print
+				printf("%c[%d;%d;%dm",27,1,37,40 + pieceID);
+				cout << "  ";
+
+				//Fix the color
+				printf("%c[%dm", 0x1B, 0);
+			} else {
+				cout << ". ";
+			}
 		}
 		cout << endl;
 	}

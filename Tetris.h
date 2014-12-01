@@ -10,12 +10,12 @@
 const int EMPTY_SPACE =  0;
 const int RESERVED    = -1;
 
-const int ANIM_DELAY = 10000;
+const int ANIM_DELAY = 50000;
 
 class Tetris {
 	public:
 	    Tetris(bool official);
-	  	Tetris(const int board[TETRIS_COLS][TETRIS_ROWS], int pieceID, int cleared);
+	  	Tetris(const int board[TETRIS_COLS][TETRIS_ROWS], int pieceID, int nextPieceID, int cleared);
 	    void printBoard();
 	    bool isLost();
 	    Piece* currentPiece();
@@ -37,6 +37,7 @@ class Tetris {
 		bool gameover;
 		const bool officialGame;
 		Piece* curPiece;
+		Piece* nextPiece;
 		void clearBoard();
 		bool collision(int dropCol, int dropRow);
 		void placePiece(int dropCol, int dropRow, int inBoard[TETRIS_COLS][TETRIS_ROWS], bool activeBoard);
