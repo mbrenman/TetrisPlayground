@@ -11,6 +11,7 @@ Action* NextPieceAgent::getAction(Tetris *board)
 {
 	vector<Action*> bestActions;
 	float bestValue = -999999;
+	foundNewBestAction(bestActions, (Rotation) 0, 0);
 
 	//For all valid rotations
 	for (int r = 0; r < NUM_ROTATIONS; r++) {
@@ -33,30 +34,34 @@ Action* NextPieceAgent::getAction(Tetris *board)
 
 			firstPlayed->playAction(a, false);
 
-			//Now look at the best for the next piece
-			//For all valid rotations
-			for (int nextr = 0; nextr < NUM_ROTATIONS; nextr++) {
-				Rotation nextrot = (Rotation) nextr;
+			//We don't want to keep looking if we've lost
+			if (!firstPlayed->isLost()) {
 
-				//Make sure that we only check valid columns
-				int nextMaxColumn = firstPlayed->highestValidColWithRot(nextrot) + 1;
+				//Now look at the best for the next piece
+				//For all valid rotations
+				for (int nextr = 0; nextr < NUM_ROTATIONS; nextr++) {
+					Rotation nextrot = (Rotation) nextr;
 
-				//For all valid columns for each rotation
-				for (int nextcol = 0; nextcol < nextMaxColumn; nextcol++) {
-					//Create the action for this move (will be cleaned up by playing it)
+					//Make sure that we only check valid columns
+					int nextMaxColumn = firstPlayed->highestValidColWithRot(nextrot) + 1;
 
-					Tetris *nextPieceBoard = firstPlayed->gameCopy();
+					//For all valid columns for each rotation
+					for (int nextcol = 0; nextcol < nextMaxColumn; nextcol++) {
+						//Create the action for this move (will be cleaned up by playing it)
 
-					Action *nexta = new Action(nextrot, nextcol);
-					nextPieceBoard->playAction(nexta, false);
+						Tetris *nextPieceBoard = firstPlayed->gameCopy();
 
-					actVal = heurAgent->valueBetweenBoards(board, nextPieceBoard);
+						Action *nexta = new Action(nextrot, nextcol);
+						nextPieceBoard->playAction(nexta, false);
 
-					if (actVal > bestValue) {
-						bestValue = actVal;
-						foundNewBestAction(bestActions, rot, col);
-					} else if (actVal == bestValue) {
-						foundTiedAction(bestActions, rot, col);
+						actVal = heurAgent->valueBetweenBoards(board, nextPieceBoard);
+
+						if (actVal > bestValue) {
+							bestValue = actVal;
+							foundNewBestAction(bestActions, rot, col);
+						} else if (actVal == bestValue) {
+							foundTiedAction(bestActions, rot, col);
+						}
 					}
 				}
 			}	
