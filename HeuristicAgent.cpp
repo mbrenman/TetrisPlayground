@@ -114,13 +114,6 @@ float HeuristicAgent::valueOfAction(int linesCleared, int heightGain, int newHol
 {
 	double score = (weights[0] * linesCleared) + (weights[1] * newHoles) + (weights[2] * topDownBlocked) + (weights[3] * aggTopBlocked) + (weights[4] * heightGain) + (weights[5] * aggregHeight);
 	if (lost) {
-		// cout << endl;
-		// cout << "linesCleared " << linesCleared << endl;
-		// cout << "heightGain " << heightGain << endl;
-		// cout << "newHoles " << newHoles << endl;
-		// cout << "topDownBlocked " << topDownBlocked << endl;
-		// cout << "aggTopBlocked " << aggTopBlocked << endl;
-		// cout << "aggregHeight " << aggregHeight << endl;
 		score -= LOSE_PENALTY;
 	}
 	return score;
@@ -211,6 +204,7 @@ int HeuristicAgent::aggregateTopDownBlocked(Tetris *board)
 						blockCount++;
 					}
 				}
+				break;
 			}
 		}
 	}

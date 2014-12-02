@@ -15,8 +15,8 @@ using namespace std;
 const int NUM_GAMES = 10;
 const int POPULATION_SIZE = 20;
 const int NUM_GENERATIONS = 50;
-const double MUTATION_RATE = 0.1;
-const int RAND_NEW = 25;
+const double MUTATION_RATE = 0.02;
+const int RAND_NEW = 15;
 
 //TODO: Diversity criterion?
 
@@ -40,13 +40,12 @@ void printPopulationData(playerWithScore population[POPULATION_SIZE]);
 void evolvePopulation(playerWithScore *population);
 HeuristicAgent *getCrossoverPlayer(playerWithScore population[POPULATION_SIZE]);
 HeuristicAgent *getMutatedPlayer(playerWithScore population[POPULATION_SIZE]);
+HeuristicAgent *randomMutatedPlayer(playerWithScore population[POPULATION_SIZE]);
 void mutateWeights(double weights[NUM_WEIGHTS]);
 double evaluatePlayer(Agent *player);
 void playGame(Tetris *board, Agent *player, bool animated);
 double randomNegOneToOne();
 int playerComp(const void *a, const void *b);
-
-//[-0.138531, -0.0323687, -0.702698, -0.0973667, -0.675217]
 
 int main(int argc, char const *argv[])
 {
@@ -137,7 +136,7 @@ void evolvePopulation(playerWithScore population[POPULATION_SIZE])
 
 		bool randNew = rand() % 100 < RAND_NEW;
 		if (randNew) {
-			player = randomPlayer();
+			player = randomMutatedPlayer(population);
 			cout << "RAND" << endl;
 		} else {
 			//Randomly either mutate or crossover
@@ -165,6 +164,25 @@ HeuristicAgent *getMutatedPlayer(playerWithScore population[POPULATION_SIZE])
 	//Mutate their weights
 	double *weights = toMutate->weights;
 	mutateWeights(weights);
+
+	//Make the new agent with the updated weights
+	return new HeuristicAgent(weights);	
+}
+
+HeuristicAgent *randomMutatedPlayer(playerWithScore population[POPULATION_SIZE])
+{
+	//Pick a random player
+	int playerIndex = rand() % (POPULATION_SIZE);
+	HeuristicAgent *toMutate = population[playerIndex].player;
+
+	//Randomly change some weights to random numbers
+	double *weights = toMutate->weights;
+	for (int i = 0; i < NUM_WEIGHTS; i++) {
+		bool change = rand() % 2; //0 or 1
+		if (change) {
+			weights[i] = randomNegOneToOne();
+		}
+	}
 
 	//Make the new agent with the updated weights
 	return new HeuristicAgent(weights);	

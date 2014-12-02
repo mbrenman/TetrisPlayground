@@ -62,9 +62,13 @@ Action* NextPieceAgent::getAction(Tetris *board)
 						} else if (actVal == bestValue) {
 							foundTiedAction(bestActions, rot, col);
 						}
+
+						delete nextPieceBoard;
 					}
 				}
-			}	
+			}
+
+			delete firstPlayed;	
 		}
 	}
 

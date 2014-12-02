@@ -25,8 +25,7 @@ class HeuristicAgent : public Agent {
 		Action* getAction(Tetris *board);
 		float valueBetweenBoards(Tetris *board1, Tetris *board2);
 		double weights[NUM_WEIGHTS];
-		~HeuristicAgent();
-
+		virtual ~HeuristicAgent();
 	private:
 		vector<Action *> getBestActions(Tetris *board);
 		float valueOfAction(int linesCleared, int heightGain, int newHoles, int topDownBlocked, int aggTopBlocked, int aggHeight, bool lost);

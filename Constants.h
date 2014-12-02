@@ -15,6 +15,7 @@ const int NUM_WEIGHTS = 6;
 enum Rotation {NONE, CLOCKWISE, COUNTER_CLOCKWISE, FLIP, NUM_ROTATIONS};
 
 //Best known weights
-static double BEST_WEIGHTS[NUM_WEIGHTS] = {0.2196, 0.02566, -0.483, -0.1131, 0.5441, -0.6395};
+// static double BEST_WEIGHTS[NUM_WEIGHTS] = {0.2196, 0.02566, -0.483, -0.1131, 0.5441, -0.6395};
+static double BEST_WEIGHTS[NUM_WEIGHTS] = {0.5114, 0.06141, -0.4613, -0.5912, 0.3666, -0.1948};
 
 #endif

@@ -13,7 +13,7 @@ class NextPieceAgent : public Agent {
 	public:
 		NextPieceAgent();
 		Action* getAction(Tetris *board);
-		~NextPieceAgent();
+		virtual ~NextPieceAgent();
 	private:
 		HeuristicAgent *heurAgent;	
 };

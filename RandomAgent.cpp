@@ -19,3 +19,6 @@ Action* RandomAgent::getAction(Tetris *board)
 	//Play the action
 	return a;
 }
+
+RandomAgent::~RandomAgent()
+{}

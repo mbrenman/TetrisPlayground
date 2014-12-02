@@ -13,6 +13,7 @@ class Agent {
 	public:
 		Agent();
 		virtual Action* getAction(Tetris *board);
+		virtual ~Agent();
 	protected:
 		Action* pickRandomAction(vector<Action*> &actions);
 		void clearActionList(vector<Action*> &actions);

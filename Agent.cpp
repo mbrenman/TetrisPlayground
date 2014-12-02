@@ -43,3 +43,6 @@ void Agent::foundTiedAction(vector<Action*> &actions, Rotation rot, int col)
 	Action *a = new Action(rot, col);
 	actions.push_back(a);
 }
+
+Agent::~Agent()
+{}
