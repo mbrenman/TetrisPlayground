@@ -12,9 +12,9 @@
 
 using namespace std;
 
-const int NUM_GAMES = 10;
+const int NUM_GAMES = 5;
 const int POPULATION_SIZE = 20;
-const int NUM_GENERATIONS = 50;
+const int NUM_GENERATIONS = 3;
 const double MUTATION_RATE = 0.02;
 const int RAND_NEW = 15;
 
@@ -88,9 +88,12 @@ int main(int argc, char const *argv[])
 	}
 	cout << "]" << endl;
 
-	delete population;
-	delete board;
-	delete player;
+	for (int i = 0; i < POPULATION_SIZE; i++) {
+		delete population[i].player;
+	}
+
+	delete[] population;
+	delete board;	
 	return 0;
 }
 
@@ -131,6 +134,7 @@ void evolvePopulation(playerWithScore population[POPULATION_SIZE])
 	//Replace the worse half
 	for (int i = POPULATION_SIZE / 2; i < POPULATION_SIZE; i++) {
 		delete population[i].player;
+		population[i].player = NULL;
 
 		HeuristicAgent *player;
 
@@ -158,7 +162,7 @@ void evolvePopulation(playerWithScore population[POPULATION_SIZE])
 HeuristicAgent *getMutatedPlayer(playerWithScore population[POPULATION_SIZE])
 {
 	//Pick a random player
-	int playerIndex = rand() % (POPULATION_SIZE);
+	int playerIndex = rand() % (POPULATION_SIZE / 2);
 	HeuristicAgent *toMutate = population[playerIndex].player;
 
 	//Mutate their weights
@@ -172,7 +176,7 @@ HeuristicAgent *getMutatedPlayer(playerWithScore population[POPULATION_SIZE])
 HeuristicAgent *randomMutatedPlayer(playerWithScore population[POPULATION_SIZE])
 {
 	//Pick a random player
-	int playerIndex = rand() % (POPULATION_SIZE);
+	int playerIndex = rand() % (POPULATION_SIZE / 2);
 	HeuristicAgent *toMutate = population[playerIndex].player;
 
 	//Randomly change some weights to random numbers
@@ -193,9 +197,9 @@ HeuristicAgent *getCrossoverPlayer(playerWithScore population[POPULATION_SIZE])
 	double weights[NUM_WEIGHTS];
 	
 	//Pick two random surviving players
-	int firstParentInd = rand() % (POPULATION_SIZE);
+	int firstParentInd = rand() % (POPULATION_SIZE / 2);
 	HeuristicAgent *parent1 = population[firstParentInd].player;
-	int secondParentInd = rand() % (POPULATION_SIZE);
+	int secondParentInd = rand() % (POPULATION_SIZE / 2);
 	HeuristicAgent *parent2 = population[secondParentInd].player;
 	
 	for (int i = 0; i < NUM_WEIGHTS; i++) {
