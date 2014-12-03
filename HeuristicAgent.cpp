@@ -31,6 +31,9 @@ Action* HeuristicAgent::getAction(Tetris *board)
 	//Choose the best action
 	Action *a = pickRandomAction(bestActions);
 
+	//Clean up the actions
+	clearActionList(bestActions);
+
 	//Play the action
 	return a;
 }

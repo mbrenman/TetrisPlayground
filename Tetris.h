@@ -10,7 +10,7 @@
 const int EMPTY_SPACE =  0;
 const int RESERVED    = -1;
 
-const int ANIM_DELAY = 0;
+const int ANIM_DELAY = 10000;
 
 class Tetris {
 	public:

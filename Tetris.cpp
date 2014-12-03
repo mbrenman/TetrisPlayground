@@ -1,5 +1,7 @@
 #include "Tetris.h"
 #include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
 
 using namespace std;
 
@@ -168,6 +170,7 @@ void Tetris::printBoard()
 		cout << endl;
 	}
 	printData();
+	cout << endl << endl;
 }
 
 void Tetris::printBoardWithDroppingPiece(int col, int dropRow)
@@ -200,6 +203,7 @@ void Tetris::printSpecial(int inBoard[TETRIS_COLS][TETRIS_ROWS])
 		cout << endl;
 	}
 	printData();
+	cout << endl << endl;
 }
 
 void Tetris::printData()

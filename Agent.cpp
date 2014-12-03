@@ -1,4 +1,6 @@
 #include "Agent.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 Agent::Agent()
 {

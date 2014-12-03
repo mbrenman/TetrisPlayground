@@ -32,9 +32,8 @@ int main(int argc, char const *argv[])
 
 void playGame(Tetris *board, Agent *player, bool animated)
 {
-	int count = 0;
 	//Game loop
-	while (!board->isLost() && count++ < 1) {
+	while (!board->isLost()) {
 		//Get action from the agent
 		Action *a = player->getAction(board);
 

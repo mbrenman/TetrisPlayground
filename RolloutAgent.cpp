@@ -44,6 +44,8 @@ Action* RolloutAgent::getAction(Tetris *board)
 
 				actVal += heurAgent->valueBetweenBoards(board, trajectorySim);
 				// trajectorySim->printBoard();
+
+				delete trajectorySim;
 			}
 			
 			//Average over the W K-length trajectories

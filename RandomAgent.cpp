@@ -1,4 +1,6 @@
 #include "RandomAgent.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 RandomAgent::RandomAgent()
 {
