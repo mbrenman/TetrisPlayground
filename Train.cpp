@@ -13,7 +13,7 @@
 using namespace std;
 
 const int NUM_GAMES = 5;
-const int POPULATION_SIZE = 20;
+const int POPULATION_SIZE = 10;
 const int NUM_GENERATIONS = 3;
 const double MUTATION_RATE = 0.02;
 const int RAND_NEW = 15;
@@ -67,8 +67,7 @@ int main(int argc, char const *argv[])
 	}
 
 	cout << "\n\nPress Enter to see best agent play!\n\n";
-	string wait;
-	cin >> wait;
+	cin.get();
 
 	//Create Agent -- first in list is best
 	Agent *player = population[0].player;
