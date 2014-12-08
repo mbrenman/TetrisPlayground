@@ -40,7 +40,7 @@ Action* HeuristicAgent::getAction(Tetris *board)
 
 vector<Action *> HeuristicAgent::getBestActions(Tetris *board)
 {
-	float bestValue = -99999999;
+	double bestValue = -99999999;
 
 	vector<Action*> bestActions;
 
@@ -59,7 +59,7 @@ vector<Action *> HeuristicAgent::getBestActions(Tetris *board)
 			//Copy the board
 			Tetris *sim = board->gameCopy();
 
-			float value = valueOfActionOnBoard(a, sim);
+			double value = valueOfActionOnBoard(a, sim);
 
 			if (value > bestValue) {
 				bestValue = value;

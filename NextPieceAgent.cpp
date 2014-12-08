@@ -56,6 +56,23 @@ Action* NextPieceAgent::getAction(Tetris *board)
 
 						actVal = heurAgent->valueBetweenBoards(board, nextPieceBoard);
 
+						if (testPoss) {
+							double avgNext = 0;
+							//Simulate all possible next pieces
+							for (int m = 0; m < NUMPIECES; m++) {
+								Tetris *possPiece = nextPieceBoard->gameCopy();
+								possPiece->setPiece(m + 1);
+
+								Action *a = heurAgent->getAction(possPiece);
+								avgNext += heurAgent->valueOfActionOnBoard(a, possPiece);
+
+								delete possPiece;
+							}
+							avgNext /= NUMPIECES;
+
+							actVal += avgNext;
+						}
+
 						if (actVal > bestValue) {
 							bestValue = actVal;
 							foundNewBestAction(bestActions, rot, col);

@@ -33,16 +33,18 @@ Action* RolloutAgent::getAction(Tetris *board)
 				//Copy the board -- this makes it have random next pieces
 				Tetris *trajectorySim = board->gameCopy();
 
-				trajectorySim->playAction(a, false);
+				// trajectorySim->playAction(a, false);
+				actVal += heurAgent->valueOfActionOnBoard(a, trajectorySim);
 
 				for (int k = 0; k < K; k++) {
 					// trajectorySim->setPiece(1);
 					// trajectorySim->printBoard();
 					Action *heuristicAct = heurAgent->getAction(trajectorySim);
-					trajectorySim->playAction(heuristicAct, false);
+					// trajectorySim->playAction(heuristicAct, false);
+					actVal += pow(GAMMA, k + 1) * heurAgent->valueOfActionOnBoard(heuristicAct, trajectorySim);
 				}
 
-				actVal += heurAgent->valueBetweenBoards(board, trajectorySim);
+				// actVal += heurAgent->valueBetweenBoards(board, trajectorySim);
 				// trajectorySim->printBoard();
 
 				delete trajectorySim;

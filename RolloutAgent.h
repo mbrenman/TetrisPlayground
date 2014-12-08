@@ -9,9 +9,9 @@
 
 using namespace std;
 
-const int K = 2;
-const int W = 5;
-const float GAMMA = 0.9;
+const int K = 5;
+const int W = 50;
+const float GAMMA = 0.8;
 
 class RolloutAgent : public Agent {
 	public:
