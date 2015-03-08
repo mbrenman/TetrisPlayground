@@ -105,3 +105,17 @@ The simulated board keeps the same information as is known with the real board, 
 ## Example Agents
 
 There are multiple agents already defined in the `agents` directory, and they are described more fully in the paper in the repo.
+
+##Troubleshooting
+* Open an issue with GitHub's issue reporting system
+* Send me an email at mattbrenman@gmail.com
+
+## Author
+
+mbrenman, mattbrenman@gmail.com
+
+## License
+
+This project is available under the MIT license. See the LICENSE file for more info.
+
+
