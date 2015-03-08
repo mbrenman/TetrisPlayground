@@ -10,7 +10,7 @@
 const int EMPTY_SPACE =  0;
 const int RESERVED    = -1;
 
-const int ANIM_DELAY = 10000;
+const int ANIM_DELAY = 0;
 
 class Tetris {
 	public:
@@ -20,7 +20,7 @@ class Tetris {
 	    bool isLost();
 	    Piece* currentPiece();
 	    void setPiece(int id);
-	    void playAction(Action *a, bool animated);
+	    void playAction(Action a, bool animated);
 	    int highestValidCol();
 	    int highestValidColWithRot(Rotation rot);
 	    Tetris* gameCopy();

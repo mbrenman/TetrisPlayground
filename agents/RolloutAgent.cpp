@@ -7,9 +7,9 @@ RolloutAgent::RolloutAgent()
 	heurAgent = new HeuristicAgent(ws);
 }
 
-Action* RolloutAgent::getAction(Tetris *board)
+Action  RolloutAgent::getAction(Tetris *board)
 {
-	vector<Action*> bestActions;
+	vector<Action > bestActions;
 	float bestValue = -99999999;
 
 	//For all valid rotations
@@ -28,7 +28,7 @@ Action* RolloutAgent::getAction(Tetris *board)
 			//TODO: Look at all possible next pieces instead of random sampling
 
 			for (int w = 0; w < W; w++) {
-				Action *a = new Action(rot, col);
+				Action a = Action(rot, col);
 
 				//Copy the board -- this makes it have random next pieces
 				Tetris *trajectorySim = board->gameCopy();
@@ -39,7 +39,7 @@ Action* RolloutAgent::getAction(Tetris *board)
 				for (int k = 0; k < K; k++) {
 					// trajectorySim->setPiece(1);
 					// trajectorySim->printBoard();
-					Action *heuristicAct = heurAgent->getAction(trajectorySim);
+					Action heuristicAct = heurAgent->getAction(trajectorySim);
 					// trajectorySim->playAction(heuristicAct, false);
 					actVal += pow(GAMMA, k + 1) * heurAgent->valueOfActionOnBoard(heuristicAct, trajectorySim);
 				}
@@ -66,7 +66,7 @@ Action* RolloutAgent::getAction(Tetris *board)
 	}
 
 	//Choose the best action
-	Action *a = pickRandomAction(bestActions);
+	Action a = pickRandomAction(bestActions);
 
 	//Clean up the actions
 	clearActionList(bestActions);

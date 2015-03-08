@@ -14,7 +14,7 @@ const bool testPoss = false;
 class NextPieceAgent : public Agent {
 	public:
 		NextPieceAgent();
-		Action* getAction(Tetris *board);
+		Action getAction(Tetris *board);
 		virtual ~NextPieceAgent();
 	private:
 		HeuristicAgent *heurAgent;

@@ -24,12 +24,12 @@ HeuristicAgent::HeuristicAgent(double ws[NUM_WEIGHTS])
 	}
 }
 
-Action* HeuristicAgent::getAction(Tetris *board)
+Action HeuristicAgent::getAction(Tetris *board)
 {
-	vector<Action *> bestActions = getBestActions(board);;
+	vector<Action> bestActions = getBestActions(board);;
 
 	//Choose the best action
-	Action *a = pickRandomAction(bestActions);
+	Action a = pickRandomAction(bestActions);
 
 	//Clean up the actions
 	clearActionList(bestActions);
@@ -38,11 +38,11 @@ Action* HeuristicAgent::getAction(Tetris *board)
 	return a;
 }
 
-vector<Action *> HeuristicAgent::getBestActions(Tetris *board)
+vector<Action > HeuristicAgent::getBestActions(Tetris *board)
 {
 	double bestValue = -99999999;
 
-	vector<Action*> bestActions;
+	vector<Action> bestActions;
 
 	//For all valid rotations
 	for (int r = 0; r < NUM_ROTATIONS; r++) {
@@ -54,7 +54,7 @@ vector<Action *> HeuristicAgent::getBestActions(Tetris *board)
 		//For all valid columns for each rotation
 		for (int col = 0; col < maxColumn; col++) {
 			//Create the action for this move (will be cleaned up by playing it)
-			Action *a = new Action(rot, col);
+			Action a = Action(rot, col);
 
 			//Copy the board
 			Tetris *sim = board->gameCopy();
@@ -75,7 +75,7 @@ vector<Action *> HeuristicAgent::getBestActions(Tetris *board)
 	return bestActions;
 }
 
-float HeuristicAgent::valueOfActionOnBoard(Action *a, Tetris *sim)
+float HeuristicAgent::valueOfActionOnBoard(Action a, Tetris *sim)
 {
 			//Save current game stats
 			int prevLines      = sim->getLinesCleared();

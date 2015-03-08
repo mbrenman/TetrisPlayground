@@ -16,7 +16,7 @@ const float GAMMA = 0.8;
 class RolloutAgent : public Agent {
 	public:
 		RolloutAgent();
-		Action* getAction(Tetris *board);
+		Action getAction(Tetris *board);
 		~RolloutAgent();
 	private:
 		HeuristicAgent *heurAgent;	

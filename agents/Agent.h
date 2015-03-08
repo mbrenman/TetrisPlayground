@@ -12,13 +12,13 @@ using namespace std;
 class Agent {
 	public:
 		Agent();
-		virtual Action* getAction(Tetris *board);
+		virtual Action getAction(Tetris *board);
 		virtual ~Agent();
 	protected:
-		Action* pickRandomAction(vector<Action*> &actions);
-		void clearActionList(vector<Action*> &actions);
-		void foundNewBestAction(vector<Action*> &actions, Rotation rot, int col);
-		void foundTiedAction(vector<Action*> &actions, Rotation rot, int col);	
+		Action pickRandomAction(vector<Action> &actions);
+		void clearActionList(vector<Action> &actions);
+		void foundNewBestAction(vector<Action> &actions, Rotation rot, int col);
+		void foundTiedAction(vector<Action> &actions, Rotation rot, int col);	
 };
 
 #endif

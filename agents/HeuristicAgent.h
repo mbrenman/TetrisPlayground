@@ -22,13 +22,13 @@ class HeuristicAgent : public Agent {
 	public:
 		HeuristicAgent();
 		HeuristicAgent(double ws[NUM_WEIGHTS]);
-		Action* getAction(Tetris *board);
+		Action getAction(Tetris *board);
 		float valueBetweenBoards(Tetris *board1, Tetris *board2);
-		float valueOfActionOnBoard(Action *a, Tetris *sim);
+		float valueOfActionOnBoard(Action a, Tetris *sim);
 		double weights[NUM_WEIGHTS];
 		virtual ~HeuristicAgent();
 	private:
-		vector<Action *> getBestActions(Tetris *board);
+		vector<Action > getBestActions(Tetris *board);
 		float valueOfAction(int linesCleared, int heightGain, int newHoles, int topDownBlocked, int aggTopBlocked, int aggHeight, bool lost);
 
 		//Heuristic Measurements

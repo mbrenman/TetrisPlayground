@@ -64,17 +64,14 @@ int Tetris::highestValidColWithRot(Rotation rot)
 	return TETRIS_COLS - width - 1;
 }
 
-void Tetris::playAction(Action *a, bool animated)
+void Tetris::playAction(Action a, bool animated)
 {
-	curPiece->rotate(a->rotation);
-	dropInColumn(a->column, animated);
+	curPiece->rotate(a.rotation);
+	dropInColumn(a.column, animated);
 
 	if (animated) {
 		printBoard();
 	}
-	
-	//Free the action
-	delete a;
 }
 
 void Tetris::dropInColumn(int col, bool animated)
@@ -89,7 +86,7 @@ void Tetris::dropInColumn(int col, bool animated)
 	int dropRow = -PIECESIZE; //Start above the board
 	while (!collision(col, dropRow)) {
 		dropRow += 1;
-		if (animated && dropRow > 0) {
+		if (animated && ANIM_DELAY > 0 && dropRow > 0) {
 			printBoardWithDroppingPiece(col, dropRow - 1);
 			usleep(ANIM_DELAY);
 		}

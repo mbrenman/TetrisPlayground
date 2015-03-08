@@ -4,6 +4,6 @@ echo "Compiling..."
 
 g++ -I game -I agents Game.cpp game/*.cpp agents/*.cpp -o play
 
-g++ -I game -I agents Train.cpp game/*.cpp agents/*.cpp -o play
+g++ -I game -I agents Train.cpp game/*.cpp agents/*.cpp -o train
 
 echo "All done!"

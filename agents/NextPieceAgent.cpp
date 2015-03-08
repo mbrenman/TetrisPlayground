@@ -7,9 +7,9 @@ NextPieceAgent::NextPieceAgent()
 	heurAgent = new HeuristicAgent(ws);
 }
 
-Action* NextPieceAgent::getAction(Tetris *board)
+Action  NextPieceAgent::getAction(Tetris *board)
 {
-	vector<Action*> bestActions;
+	vector<Action > bestActions;
 	float bestValue = -999999;
 	foundNewBestAction(bestActions, (Rotation) 0, 0);
 
@@ -27,7 +27,7 @@ Action* NextPieceAgent::getAction(Tetris *board)
 			float actVal = 0;
 			
 			//TODO: Look at all possible next pieces instead of random sampling
-			Action *a = new Action(rot, col);
+			Action a = Action(rot, col);
 
 			//Copy the board -- this makes it have random next pieces
 			Tetris *firstPlayed = board->gameCopy();
@@ -51,7 +51,7 @@ Action* NextPieceAgent::getAction(Tetris *board)
 
 						Tetris *nextPieceBoard = firstPlayed->gameCopy();
 
-						Action *nexta = new Action(nextrot, nextcol);
+						Action nexta = Action(nextrot, nextcol);
 						nextPieceBoard->playAction(nexta, false);
 
 						actVal = heurAgent->valueBetweenBoards(board, nextPieceBoard);
@@ -63,7 +63,7 @@ Action* NextPieceAgent::getAction(Tetris *board)
 								Tetris *possPiece = nextPieceBoard->gameCopy();
 								possPiece->setPiece(m + 1);
 
-								Action *a = heurAgent->getAction(possPiece);
+								Action a = heurAgent->getAction(possPiece);
 								avgNext += heurAgent->valueOfActionOnBoard(a, possPiece);
 
 								delete possPiece;
@@ -90,7 +90,7 @@ Action* NextPieceAgent::getAction(Tetris *board)
 	}
 
 	//Choose the best action
-	Action *a = pickRandomAction(bestActions);
+	Action a = pickRandomAction(bestActions);
 
 	//Clean up the actions
 	clearActionList(bestActions);

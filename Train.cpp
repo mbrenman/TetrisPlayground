@@ -274,7 +274,7 @@ void playGame(Tetris *board, Agent *player, bool animated)
 	//Game loop
 	while (!board->isLost()) {
 		//Get action from the agent
-		Action *a = player->getAction(board);
+		Action a = player->getAction(board);
 
 		//Peform the action
 		board->playAction(a, animated);

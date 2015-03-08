@@ -7,7 +7,7 @@ RandomAgent::RandomAgent()
 	Agent();
 }
 
-Action* RandomAgent::getAction(Tetris *board)
+Action RandomAgent::getAction(Tetris *board)
 {	
 	//Randomly choose a rotation state
 	Rotation rot = (Rotation)(rand() % NUM_ROTATIONS);
@@ -16,7 +16,7 @@ Action* RandomAgent::getAction(Tetris *board)
 	int playColumn = rand() % (board->highestValidColWithRot(rot) + 1);
 	
 	//Create an action from the rotation and the column
-	Action *a = new Action(rot, playColumn);
+	Action a = Action(rot, playColumn);
 	
 	//Play the action
 	return a;
