@@ -50,7 +50,7 @@ Ok, so you've built a super cool Agent, but now you want to see how it does. Luc
 
 - **Instantiate the Agent**
 
-	In `main` the Agent needs to be created. This can be done by changing the line ```Agent *player = new SomeOldAgent();``` to ```Agent *player = new NewCoolAgent();``` (assuming that your Agent class is called `NewCoolAgent`, which is a wonderful name).
+	In `main` the Agent needs to be created. This can be done by changing the line ```cpp Agent *player = new SomeOldAgent();``` to ```cpp Agent *player = new NewCoolAgent();``` (assuming that your Agent class is called `NewCoolAgent`, which is a wonderful name).
 
 That's it! Then you just need to compile and run the program.
 
@@ -66,7 +66,7 @@ An Action is defined as a combination of a rotation and a drop column:
 
 - **A drop column**
 
-	The column of the leftmost segment of the piece. Not all columns are valid in an action (if any segment of the piece would be off of hte board), but the board can be queried to find the maximum valid column. This is done with the function `int highestValidColWithRot(Rotation rot);`
+	The column of the leftmost segment of the piece. Not all columns are valid in an action (if any segment of the piece would be off of hte board), but the board can be queried to find the maximum valid column. This is done with the function ```cpp int highestValidColWithRot(Rotation rot);```
 
 Once an action is sent, it is dropped in that column with that rotation until it hits and sets with the rest of the board. This may make strategy slightly different, but I felt that it was similar enough that the benefit of simpler agents justified the change.
 
