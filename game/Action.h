@@ -9,7 +9,6 @@ class Action {
 		Action(Rotation rot, int col);
 		Rotation rotation;
 		int column;
-	private:
 };
 
 #endif

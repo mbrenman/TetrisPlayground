@@ -6,6 +6,7 @@
 #include <map>
 #include <iostream>
 #include <math.h>
+#include "HeuristicConstants.h"
 
 using namespace std;
 

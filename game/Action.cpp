@@ -2,6 +2,7 @@
 
 Action::Action()
 {
+	//Inital null action, invalid to play
 	rotation = NONE;
 	column = -1;
 }

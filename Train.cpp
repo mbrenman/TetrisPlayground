@@ -6,6 +6,7 @@
 #include "RolloutAgent.h"
 #include "HeuristicAgent.h"
 #include "NextPieceAgent.h"
+#include "HeuristicConstants.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <iomanip>

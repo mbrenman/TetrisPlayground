@@ -1,9 +1,18 @@
-echo "Compiling..."
+# Compile Script for Tetris AI Environment
 
 
+# This compiles the game and is the main piece
 
+echo "Compiling the game..."
 g++ -I game -I agents Game.cpp game/*.cpp agents/*.cpp -o play
 
+
+# This compiles a training system that was used with to find weights for the Heuristic Agent (this piece can be removed safely if the time it takes bothers you)
+
+echo "Compiling the training..."
 g++ -I game -I agents Train.cpp game/*.cpp agents/*.cpp -o train
+
+
+# add any additional compile scripts here
 
 echo "All done!"
