@@ -6,6 +6,10 @@ This is my final project for the class Advanced Machine Learning at Tufts Univer
 
 It's an easy way for ML/AI students to try building game-playing programs without having to worry about creating the game. Try it out!
 
+![gameDesign](http://imgur.com/KGUyNOk)
+
+The design of this system allows users to swap out the Agent module for their own creation and have it automatically work!
+
 ## Compiling and Running
 
 Compiling should be really easy and has been tested on Mac and Linux machines. You can use the included compile script with the command `sh compile` in the top level of the repo.
