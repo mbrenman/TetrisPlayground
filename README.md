@@ -31,7 +31,7 @@ Any user-defined agent needs to do three things:
 	```
 
 
-	* Defining a destructor. This is needed so that the subclass destructor gets called, which may be necessary if any heap elements are created in the Agent that should be kept around as long as the Agent is around. If no constructor is needed, then an empty constructor still needs to be defined (since the superclass makes it a virtual function).  
+	* Defining a destructor. This is needed so that the subclass destructor gets called, which may be necessary if any heap elements are created in the Agent that should be kept around as long as the Agent is around. If no destructor is needed, then an empty destructor still needs to be defined (since the superclass makes it a virtual function).  
 	```cpp
 	virtual ~Agent();
 	```
